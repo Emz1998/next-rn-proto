@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>NextRN - Nursing Support, Anywhere</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #3b82f6;
+        border-radius: 2px;
+      }
+
+      /* Smooth transitions */
+      * {
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      /* Active navigation state */
+      .nav-active {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      }
+    </style>
+  </head>
+  <body class="bg-black text-white h-screen overflow-hidden font-sans">
+    <!-- Main Container -->
+    <div class="flex h-full">
+      <!-- Sidebar Navigation -->
+      <nav
+        class="w-16 bg-gray-950 flex flex-col items-center py-4 border-r border-gray-900"
+      >
+        <!-- Logo -->
+        <div
+          class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6"
+        >
+          <span class="text-white font-bold text-lg">N</span>
+        </div>
+
+        <!-- Navigation Icons -->
+        <div class="flex flex-col gap-4">
+          <button
+            class="w-10 h-10 rounded-xl flex items-center justify-center nav-active"
+            onclick="showSection('threads')"
+          >
+            <i data-lucide="message-square" class="w-5 h-5 text-white"></i>
+          </button>
+          <button
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-900"
+            onclick="showSection('chat')"
+          >
+            <i data-lucide="message-circle" class="w-5 h-5 text-gray-400"></i>
+          </button>
+          <button
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-900"
+            onclick="showSection('livestream')"
+          >
+            <i data-lucide="radio" class="w-5 h-5 text-gray-400"></i>
+          </button>
+          <button
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-900"
+            onclick="showSection('guest')"
+          >
+            <i data-lucide="door-open" class="w-5 h-5 text-gray-400"></i>
+          </button>
+        </div>
+
+        <!-- Bottom Actions -->
+        <div class="mt-auto flex flex-col gap-4">
+          <button
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-900"
+          >
+            <i data-lucide="settings" class="w-5 h-5 text-gray-400"></i>
+          </button>
+          <div class="w-10 h-10 rounded-full bg-gray-800 overflow-hidden">
+            <img
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234b5563'/%3E%3C/svg%3E"
+              alt="Profile"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+      </nav>
+
+      <!-- Channel List -->
+      <div class="w-56 bg-gray-950 border-r border-gray-900 flex flex-col">
+        <!-- Header -->
+        <div class="p-4 border-b border-gray-900">
+          <h2 id="sidebar-title" class="text-sm font-semibold text-gray-300">
+            Threaded Lobby
+          </h2>
+        </div>
+
+        <!-- Channels -->
+        <div id="channels-content" class="flex-1 overflow-y-auto p-2">
+          <div class="mb-4">
+            <p class="text-xs uppercase text-gray-500 px-2 mb-2">Study Rooms</p>
+            <button
+              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2 bg-gray-900"
+            >
+              <span class="text-gray-400">#</span>
+              <span class="text-sm text-white">nclex-prep</span>
+              <span
+                class="ml-auto text-xs bg-blue-500 text-white rounded-full px-1.5"
+                >3</span
+              >
+            </button>
+            <button
+              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
+            >
+              <span class="text-gray-400">#</span>
+              <span class="text-sm text-gray-300">pharmacology</span>
+            </button>
+            <button
+              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
+            >
+              <span class="text-gray-400">#</span>
+              <span class="text-sm text-gray-300">clinical-skills</span>
+            </button>
+          </div>
+
+          <div class="mb-4">
+            <p class="text-xs uppercase text-gray-500 px-2 mb-2">
+              Live Sessions
+            </p>
+            <button
+              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
+            >
+              <i data-lucide="radio" class="w-4 h-4 text-red-500"></i>
+              <span class="text-sm text-gray-300">RN Emma Live</span>
+              <span class="ml-auto text-xs text-gray-500">247</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Direct Messages Sidebar (hidden by default) -->
+        <div id="dm-content" class="flex-1 overflow-y-auto p-2 hidden">
+          <div class="mb-4">
+            <p class="text-xs uppercase text-gray-500 px-2 mb-2">VIP Mentors</p>
+            <button
+              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
+            >
+              <div
+                class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center"
+              >
+                <span class="text-xs text-white font-semibold">VIP</span>
+              </div>
+              <span class="text-sm text-gray-300">RN Marcus</span>
+              <i
+                data-lucide="dollar-sign"
+                class="w-3 h-3 text-green-500 ml-auto"
+              ></i>
+            </button>
+            <button
+              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
+            >
+              <div
+                class="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-purple-500 flex items-center justify-center"
+              >
+                <span class="text-xs text-white font-semibold">VIP</span>
+              </div>
+              <span class="text-sm text-gray-300">RN Sarah</span>
+              <i
+                data-lucide="dollar-sign"
+                class="w-3 h-3 text-green-500 ml-auto"
+              ></i>
+            </button>
+          </div>
+
+          <div>
+            <p class="text-xs uppercase text-gray-500 px-2 mb-2">
+              Recent Messages
+            </p>
+            <button
+              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2 bg-gray-900"
+            >
+              <div class="w-6 h-6 rounded-full bg-gray-600"></div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm text-white">RN Emma</span>
+                  <span class="text-xs text-gray-500">2m</span>
+                </div>
+                <p class="text-xs text-gray-400 truncate">
+                  You're welcome! Let me know if...
+                </p>
+              </div>
+              <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+            </button>
+            <button
+              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
+            >
+              <div class="w-6 h-6 rounded-full bg-gray-600"></div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm text-gray-300">Study Group</span>
+                  <span class="text-xs text-gray-500">1h</span>
+                </div>
+                <p class="text-xs text-gray-400 truncate">
+                  Sofia: Thanks for the help!
+                </p>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="flex-1 flex flex-col bg-black">
+        <!-- Threads Section (Home) -->
+        <div id="threads-section" class="flex-1 flex flex-col">
+          <!-- Header -->
+          <header class="h-14 border-b border-gray-900 flex items-center px-4">
+            <i
+              data-lucide="message-square"
+              class="w-5 h-5 text-gray-400 mr-2"
+            ></i>
+            <h1 class="text-base font-semibold">Threads</h1>
+            <div class="ml-auto flex items-center gap-3">
+              <button class="text-gray-400 hover:text-white">
+                <i data-lucide="search" class="w-5 h-5"></i>
+              </button>
+              <button class="text-gray-400 hover:text-white">
+                <i data-lucide="filter" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </header>
+
+          <!-- Threads Feed -->
+          <div class="flex-1 overflow-y-auto">
+            <!-- Thread 1 -->
+            <div class="border-b border-gray-900 p-4 hover:bg-gray-950/50">
+              <div class="flex gap-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-700 flex-shrink-0"
+                ></div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-sm font-medium">Sofia M.</span>
+                    <span class="text-xs text-gray-500">@sofia_nurse</span>
+                    <span class="text-xs text-gray-600">·</span>
+                    <span class="text-xs text-gray-600">2h</span>
+                  </div>
+                  <p class="text-sm text-gray-200 mb-3">
+                    Just had my first successful IV insertion today! 💉 Shoutout
+                    to RN Emma for the amazing tips yesterday. Practice really
+                    does make perfect! #NursingStudent #ClinicalSkills
+                  </p>
+
+                  <div class="flex items-center gap-6 text-gray-400">
+                    <button class="flex items-center gap-1 hover:text-blue-400">
+                      <i data-lucide="message-circle" class="w-4 h-4"></i>
+                      <span class="text-xs">12</span>
+                    </button>
+                    <button
+                      class="flex items-center gap-1 hover:text-green-400"
+                    >
+                      <i data-lucide="repeat" class="w-4 h-4"></i>
+                      <span class="text-xs">3</span>
+                    </button>
+                    <button class="flex items-center gap-1 hover:text-red-400">
+                      <i data-lucide="heart" class="w-4 h-4"></i>
+                      <span class="text-xs">28</span>
+                    </button>
+                    <button class="flex items-center gap-1 hover:text-blue-400">
+                      <i data-lucide="share" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thread 2 -->
+            <div class="border-b border-gray-900 p-4 hover:bg-gray-950/50">
+              <div class="flex gap-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex-shrink-0 flex items-center justify-center"
+                >
+                  <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-sm font-medium text-blue-400"
+                      >RN Emma</span
+                    >
+                    <span
+                      class="text-xs bg-blue-500/20 text-blue-400 px-1.5 rounded"
+                      >Verified RN</span
+                    >
+                    <span class="text-xs text-gray-600">·</span>
+                    <span class="text-xs text-gray-600">4h</span>
+                  </div>
+                  <p class="text-sm text-gray-200 mb-3">
+                    Quick tip for new nursing students: When calculating
+                    pediatric dosages, always double-check your math and have
+                    another nurse verify. Patient safety is our #1 priority! 🏥
+                  </p>
+
+                  <div class="flex items-center gap-6 text-gray-400">
+                    <button class="flex items-center gap-1 hover:text-blue-400">
+                      <i data-lucide="message-circle" class="w-4 h-4"></i>
+                      <span class="text-xs">45</span>
+                    </button>
+                    <button
+                      class="flex items-center gap-1 hover:text-green-400"
+                    >
+                      <i data-lucide="repeat" class="w-4 h-4"></i>
+                      <span class="text-xs">18</span>
+                    </button>
+                    <button class="flex items-center gap-1 hover:text-red-400">
+                      <i data-lucide="heart" class="w-4 h-4"></i>
+                      <span class="text-xs">127</span>
+                    </button>
+                    <button class="flex items-center gap-1 hover:text-blue-400">
+                      <i data-lucide="share" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thread 3 -->
+            <div class="border-b border-gray-900 p-4 hover:bg-gray-950/50">
+              <div class="flex gap-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-700 flex-shrink-0"
+                ></div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-sm font-medium">Marcus J.</span>
+                    <span class="text-xs text-gray-500">@marcus_rn</span>
+                    <span class="text-xs text-gray-600">·</span>
+                    <span class="text-xs text-gray-600">6h</span>
+                  </div>
+                  <p class="text-sm text-gray-200 mb-3">
+                    Studying for NCLEX and feeling overwhelmed? Remember: focus
+                    on safety and prioritization. What would you do FIRST?
+                    That's usually your answer! 📚
+                  </p>
+
+                  <div class="flex items-center gap-6 text-gray-400">
+                    <button class="flex items-center gap-1 hover:text-blue-400">
+                      <i data-lucide="message-circle" class="w-4 h-4"></i>
+                      <span class="text-xs">23</span>
+                    </button>
+                    <button
+                      class="flex items-center gap-1 hover:text-green-400"
+                    >
+                      <i data-lucide="repeat" class="w-4 h-4"></i>
+                      <span class="text-xs">8</span>
+                    </button>
+                    <button class="flex items-center gap-1 hover:text-red-400">
+                      <i data-lucide="heart" class="w-4 h-4"></i>
+                      <span class="text-xs">56</span>
+                    </button>
+                    <button class="flex items-center gap-1 hover:text-blue-400">
+                      <i data-lucide="share" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- New Thread Input -->
+          <div class="p-4 border-t border-gray-900">
+            <div class="flex gap-3">
+              <div
+                class="w-10 h-10 rounded-full bg-gray-700 flex-shrink-0"
+              ></div>
+              <div class="flex-1">
+                <textarea
+                  placeholder="What's happening in nursing school?"
+                  class="w-full bg-transparent text-lg placeholder-gray-500 resize-none outline-none"
+                  rows="3"
+                ></textarea>
+                <div class="flex items-center justify-between mt-3">
+                  <div class="flex items-center gap-4">
+                    <button class="text-blue-400 hover:text-blue-300">
+                      <i data-lucide="image" class="w-5 h-5"></i>
+                    </button>
+                    <button class="text-blue-400 hover:text-blue-300">
+                      <i data-lucide="smile" class="w-5 h-5"></i>
+                    </button>
+                    <button class="text-blue-400 hover:text-blue-300">
+                      <i data-lucide="calendar" class="w-5 h-5"></i>
+                    </button>
+                  </div>
+                  <button
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-medium"
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direct Messages Section -->
+        <div id="chat-section" class="flex-1 flex-col hidden">
+          <!-- Chat Header -->
+          <header class="h-14 border-b border-gray-900 flex items-center px-4">
+            <div
+              class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center mr-3"
+            >
+              <span class="text-xs text-white font-semibold">VIP</span>
+            </div>
+            <div class="flex-1">
+              <h1 class="text-base font-semibold">RN Emma</h1>
+              <p class="text-xs text-gray-500">
+                Verified RN • Available for $2/question
+              </p>
+            </div>
+            <div class="flex items-center gap-3">
+              <button class="text-gray-400 hover:text-white">
+                <i data-lucide="phone" class="w-5 h-5"></i>
+              </button>
+              <button class="text-gray-400 hover:text-white">
+                <i data-lucide="video" class="w-5 h-5"></i>
+              </button>
+              <button class="text-gray-400 hover:text-white">
+                <i data-lucide="info" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </header>
+
+          <!-- Messages Area -->
+          <div class="flex-1 overflow-y-auto p-4 space-y-4">
+            <!-- Message from RN -->
+            <div class="flex items-start gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center flex-shrink-0"
+              >
+                <span class="text-xs text-white font-semibold">E</span>
+              </div>
+              <div class="flex-1">
+                <div class="bg-gray-900 rounded-2xl rounded-tl-md p-3 max-w-xs">
+                  <p class="text-sm text-gray-200">
+                    Hi! I saw your question about pediatric dosages. For a 25kg
+                    child, the correct acetaminophen dose is 10-15 mg/kg. So
+                    that would be 250-375mg per dose.
+                  </p>
+                </div>
+                <span class="text-xs text-gray-500 mt-1 block">2:34 PM</span>
+              </div>
+            </div>
+
+            <!-- Message from user -->
+            <div class="flex items-start gap-3 justify-end">
+              <div class="flex-1 flex justify-end">
+                <div class="bg-blue-500 rounded-2xl rounded-tr-md p-3 max-w-xs">
+                  <p class="text-sm text-white">
+                    Thank you so much! That really helps. I was getting confused
+                    with the calculations.
+                  </p>
+                </div>
+              </div>
+              <div class="w-8 h-8 rounded-full bg-gray-700 flex-shrink-0"></div>
+            </div>
+
+            <!-- Payment notice -->
+            <div class="flex justify-center">
+              <div
+                class="bg-green-500/10 border border-green-500/20 rounded-xl p-3 flex items-center gap-2"
+              >
+                <i
+                  data-lucide="check-circle"
+                  class="w-4 h-4 text-green-500"
+                ></i>
+                <span class="text-sm text-green-400"
+                  >Payment processed: $2.00</span
+                >
+              </div>
+            </div>
+
+            <!-- Another message from RN -->
+            <div class="flex items-start gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center flex-shrink-0"
+              >
+                <span class="text-xs text-white font-semibold">E</span>
+              </div>
+              <div class="flex-1">
+                <div class="bg-gray-900 rounded-2xl rounded-tl-md p-3 max-w-xs">
+                  <p class="text-sm text-gray-200">
+                    You're welcome! Remember to always double-check with another
+                    nurse when you're on the floor. Feel free to ask more
+                    questions anytime!
+                  </p>
+                </div>
+                <span class="text-xs text-gray-500 mt-1 block">2:45 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Message Input -->
+          <div class="p-4 border-t border-gray-900">
+            <div class="bg-gray-950 rounded-2xl flex items-end px-4 py-2">
+              <textarea
+                placeholder="Ask a question ($2)..."
+                class="bg-transparent flex-1 text-sm outline-none placeholder-gray-500 resize-none max-h-20"
+                rows="1"
+              ></textarea>
+              <div class="flex items-center gap-3 ml-4">
+                <button class="text-gray-400 hover:text-white">
+                  <i data-lucide="paperclip" class="w-4 h-4"></i>
+                </button>
+                <button
+                  class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full"
+                >
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2 text-center">
+              $2 per question • Instant expert answers
+            </p>
+          </div>
+        </div>
+
+        <!-- Livestream Section -->
+        <div id="livestream-section" class="flex-1 flex-col bg-black hidden">
+          <!-- Livestream Header -->
+          <header class="h-14 border-b border-gray-900 flex items-center px-4">
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+              <i data-lucide="radio" class="w-5 h-5 text-red-500"></i>
+              <div>
+                <h1 class="text-base font-semibold">RN Emma Live</h1>
+                <p class="text-xs text-gray-500">
+                  NCLEX Prep & Dosage Calculations
+                </p>
+              </div>
+            </div>
+            <div class="ml-auto flex items-center gap-4">
+              <div class="flex items-center gap-1 text-gray-400">
+                <i data-lucide="users" class="w-4 h-4"></i>
+                <span class="text-sm">247</span>
+              </div>
+              <button class="text-gray-400 hover:text-white">
+                <i data-lucide="share-2" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </header>
+
+          <div class="flex-1 flex">
+            <!-- Main Video Area -->
+            <div class="flex-1 flex flex-col">
+              <!-- Video Stream -->
+              <div
+                class="relative bg-gray-900 aspect-video flex items-center justify-center"
+              >
+                <!-- Simulated video content -->
+                <div
+                  class="absolute inset-0 bg-gradient-to-br from-blue-900/30 to-purple-900/30"
+                ></div>
+                <div class="relative z-10 text-center">
+                  <div
+                    class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center mx-auto mb-4"
+                  >
+                    <i data-lucide="user" class="w-12 h-12 text-white"></i>
+                  </div>
+                  <h3 class="text-xl font-semibold text-white mb-2">
+                    RN Emma Rodriguez
+                  </h3>
+                  <p class="text-gray-300 text-sm">
+                    ICU Nurse • 8+ years experience
+                  </p>
+                </div>
+
+                <!-- Live indicator -->
+                <div
+                  class="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded text-xs font-semibold flex items-center gap-1"
+                >
+                  <div
+                    class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"
+                  ></div>
+                  LIVE
+                </div>
+
+                <!-- Viewer count -->
+                <div
+                  class="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-2 py-1 rounded text-xs flex items-center gap-1"
+                >
+                  <i data-lucide="eye" class="w-3 h-3"></i>
+                  247 watching
+                </div>
+
+                <!-- Video controls overlay -->
+                <div
+                  class="absolute bottom-4 left-4 right-4 flex items-center justify-between"
+                >
+                  <div class="flex items-center gap-3">
+                    <button
+                      class="w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70"
+                    >
+                      <i data-lucide="volume-2" class="w-5 h-5"></i>
+                    </button>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button
+                      class="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70"
+                    >
+                      <i data-lucide="maximize" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stream Info & Actions -->
+              <div class="p-4 border-b border-gray-900">
+                <div class="flex items-start justify-between mb-3">
+                  <div class="flex-1">
+                    <h2 class="text-lg font-semibold text-white mb-1">
+                      NCLEX Prep Session: Medication Dosage Calculations
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                      Join us for live Q&A on pediatric and adult dosage
+                      calculations. Bring your questions!
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                  <button
+                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
+                  >
+                    <i data-lucide="dollar-sign" class="w-4 h-4"></i>
+                    Super Chat ($1)
+                  </button>
+                  <button
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
+                  >
+                    <i data-lucide="heart" class="w-4 h-4"></i>
+                    Follow
+                  </button>
+                  <button
+                    class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
+                  >
+                    <i data-lucide="bell" class="w-4 h-4"></i>
+                    Notify
+                  </button>
+                </div>
+              </div>
+
+              <!-- Live Chat -->
+              <div class="flex-1 flex flex-col">
+                <div class="p-3 border-b border-gray-900">
+                  <h3 class="text-sm font-semibold text-gray-300">Live Chat</h3>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-3 space-y-3">
+                  <!-- Super Chat message -->
+                  <div
+                    class="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-lg p-3"
+                  >
+                    <div class="flex items-center gap-2 mb-1">
+                      <div
+                        class="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center"
+                      >
+                        <i
+                          data-lucide="dollar-sign"
+                          class="w-3 h-3 text-black"
+                        ></i>
+                      </div>
+                      <span class="text-sm font-medium text-yellow-400"
+                        >Sofia M.</span
+                      >
+                      <span
+                        class="text-xs bg-yellow-500/20 text-yellow-400 px-1.5 rounded"
+                        >$5 Super Chat</span
+                      >
+                    </div>
+                    <p class="text-sm text-gray-200">
+                      Can you explain the difference between mg/kg and mg/kg/day
+                      for pediatric calculations?
+                    </p>
+                  </div>
+
+                  <!-- Regular chat messages -->
+                  <div class="flex items-start gap-2">
+                    <div
+                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                    ></div>
+                    <div>
+                      <div class="flex items-baseline gap-2">
+                        <span class="text-sm font-medium text-blue-400"
+                          >Marcus_RN</span
+                        >
+                        <span class="text-xs text-gray-500">2:34 PM</span>
+                      </div>
+                      <p class="text-sm text-gray-200">
+                        Great explanation Emma! This is exactly what I needed
+                        for my exam tomorrow 📚
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-2">
+                    <div
+                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                    ></div>
+                    <div>
+                      <div class="flex items-baseline gap-2">
+                        <span class="text-sm font-medium text-gray-300"
+                          >StudentNurse2025</span
+                        >
+                        <span class="text-xs text-gray-500">2:35 PM</span>
+                      </div>
+                      <p class="text-sm text-gray-200">
+                        Following! Love these live sessions 💙
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-2">
+                    <div
+                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                    ></div>
+                    <div>
+                      <div class="flex items-baseline gap-2">
+                        <span class="text-sm font-medium text-gray-300"
+                          >Lisa_Studying</span
+                        >
+                        <span class="text-xs text-gray-500">2:36 PM</span>
+                      </div>
+                      <p class="text-sm text-gray-200">
+                        Question: How do you calculate drip rates for IV fluids?
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-2">
+                    <div
+                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                    ></div>
+                    <div>
+                      <div class="flex items-baseline gap-2">
+                        <span class="text-sm font-medium text-purple-400"
+                          >NightShiftRN</span
+                        >
+                        <span
+                          class="text-xs bg-purple-500/20 text-purple-400 px-1.5 rounded text-xs"
+                          >Moderator</span
+                        >
+                        <span class="text-xs text-gray-500">2:37 PM</span>
+                      </div>
+                      <p class="text-sm text-gray-200">
+                        Remember to always double-check your calculations with
+                        another nurse! Safety first! 🏥
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- New messages continue to appear -->
+                  <div class="flex items-start gap-2">
+                    <div
+                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                    ></div>
+                    <div>
+                      <div class="flex items-baseline gap-2">
+                        <span class="text-sm font-medium text-gray-300"
+                          >Jake_ClinicalYear</span
+                        >
+                        <span class="text-xs text-gray-500">2:38 PM</span>
+                      </div>
+                      <p class="text-sm text-gray-200">
+                        This is helping me so much with my dosage calc homework!
+                        Thank you! 🙏
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chat input -->
+                <div class="p-3 border-t border-gray-900">
+                  <div class="flex gap-2">
+                    <div
+                      class="flex-1 bg-gray-900 rounded-lg px-3 py-2 flex items-center"
+                    >
+                      <input
+                        type="text"
+                        placeholder="Send a message..."
+                        class="bg-transparent flex-1 text-sm outline-none placeholder-gray-500"
+                      />
+                      <button class="text-gray-400 hover:text-white ml-2">
+                        <i data-lucide="smile" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+                    <button
+                      class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg flex items-center gap-1 text-sm"
+                    >
+                      <i data-lucide="dollar-sign" class="w-3 h-3"></i>
+                      $1
+                    </button>
+                    <button
+                      class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg"
+                    >
+                      <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                  <p class="text-xs text-gray-500 mt-1">
+                    Use Super Chat ($1) to highlight your question
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guest Room Section -->
+        <div id="guest-section" class="flex-1 flex-col bg-black hidden">
+          <header class="h-14 border-b border-gray-900 flex items-center px-4">
+            <i data-lucide="door-open" class="w-5 h-5 text-gray-400 mr-2"></i>
+            <h1 class="text-base font-semibold">Guest Room</h1>
+          </header>
+
+          <div class="flex-1 overflow-y-auto p-4">
+            <!-- To-Do List -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="check-square" class="w-4 h-4"></i>
+                Today's Tasks
+              </h2>
+              <div class="space-y-2">
+                <div
+                  class="bg-gray-950 rounded-lg p-3 border border-gray-900 flex items-center gap-3"
+                >
+                  <input
+                    type="checkbox"
+                    class="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-500"
+                  />
+                  <span class="text-sm text-gray-200 flex-1"
+                    >Complete pharmacology chapter 5</span
+                  >
+                  <span class="text-xs text-gray-500">Due 3pm</span>
+                </div>
+                <div
+                  class="bg-gray-950 rounded-lg p-3 border border-gray-900 flex items-center gap-3"
+                >
+                  <input
+                    type="checkbox"
+                    class="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-500"
+                    checked
+                  />
+                  <span class="text-sm text-gray-400 line-through flex-1"
+                    >Practice IV insertion technique</span
+                  >
+                  <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Calendar -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="calendar" class="w-4 h-4"></i>
+                Upcoming Schedule
+              </h2>
+              <div
+                class="bg-gray-950 rounded-lg p-3 border border-gray-900 space-y-2"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <span class="text-sm text-gray-200"
+                      >Clinical Rotation - Pediatrics</span
+                    >
+                  </div>
+                  <span class="text-xs text-gray-500">Tomorrow 7am</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span class="text-sm text-gray-200">NCLEX Study Group</span>
+                  </div>
+                  <span class="text-xs text-gray-500">Fri 2pm</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reminders -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="bell" class="w-4 h-4"></i>
+                Reminders
+              </h2>
+              <div
+                class="bg-gradient-to-r from-blue-500/10 to-blue-600/10 rounded-lg p-3 border border-blue-500/20"
+              >
+                <p class="text-sm text-blue-400">
+                  💉 Flu shot appointment in 2 days
+                </p>
+              </div>
+            </div>
+
+            <!-- Journal -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                Clinical Journal
+              </h2>
+              <div class="bg-gray-950 rounded-lg p-3 border border-gray-900">
+                <p class="text-xs text-gray-500 mb-1">
+                  Latest Entry - Today 2:45 PM
+                </p>
+                <p class="text-sm text-gray-200">
+                  Successful first IV insertion! Patient was very
+                  understanding...
+                </p>
+                <button class="text-xs text-blue-400 hover:text-blue-300 mt-2">
+                  Read more →
+                </button>
+              </div>
+            </div>
+
+            <!-- Skills Progress -->
+            <div>
+              <h2
+                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="trending-up" class="w-4 h-4"></i>
+                Skills Progress
+              </h2>
+              <div class="space-y-3">
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm text-gray-300"
+                      >Medication Administration</span
+                    >
+                    <span class="text-xs text-gray-500">85%</span>
+                  </div>
+                  <div class="w-full bg-gray-800 rounded-full h-2">
+                    <div
+                      class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full"
+                      style="width: 85%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm text-gray-300"
+                      >Patient Assessment</span
+                    >
+                    <span class="text-xs text-gray-500">72%</span>
+                  </div>
+                  <div class="w-full bg-gray-800 rounded-full h-2">
+                    <div
+                      class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full"
+                      style="width: 72%"
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm text-gray-300">IV Therapy</span>
+                    <span class="text-xs text-gray-500">45%</span>
+                  </div>
+                  <div class="w-full bg-gray-800 rounded-full h-2">
+                    <div
+                      class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full"
+                      style="width: 45%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      // Section switching functionality
+      function showSection(section) {
+        // Hide all sections
+        document.getElementById('threads-section').classList.add('hidden');
+        document.getElementById('chat-section').classList.add('hidden');
+        document.getElementById('guest-section').classList.add('hidden');
+
+        // Hide sidebar content
+        document.getElementById('channels-content').classList.add('hidden');
+        document.getElementById('dm-content').classList.add('hidden');
+
+        // Reset all nav buttons
+        const navButtons = document.querySelectorAll('nav button');
+        navButtons.forEach((btn) => {
+          btn.classList.remove('nav-active');
+          btn.classList.add('hover:bg-gray-900');
+          const icon = btn.querySelector('i');
+          if (icon) icon.classList.remove('text-white');
+          if (icon) icon.classList.add('text-gray-400');
+        });
+
+        // Show selected section and update nav
+        switch (section) {
+          case 'threads':
+            document
+              .getElementById('threads-section')
+              .classList.remove('hidden');
+            document.getElementById('threads-section').classList.add('flex');
+            document
+              .getElementById('channels-content')
+              .classList.remove('hidden');
+            document.getElementById('sidebar-title').textContent =
+              'Threaded Lobby';
+            break;
+          case 'chat':
+            document.getElementById('chat-section').classList.remove('hidden');
+            document.getElementById('chat-section').classList.add('flex');
+            document.getElementById('dm-content').classList.remove('hidden');
+            document.getElementById('sidebar-title').textContent =
+              'Direct Messages';
+            break;
+          case 'livestream':
+            document
+              .getElementById('livestream-section')
+              .classList.remove('hidden');
+            document.getElementById('livestream-section').classList.add('flex');
+            document
+              .getElementById('channels-content')
+              .classList.remove('hidden');
+            document.getElementById('sidebar-title').textContent =
+              'Live Sessions';
+            break;
+            document.getElementById('guest-section').classList.remove('hidden');
+            document.getElementById('guest-section').classList.add('flex');
+            document
+              .getElementById('channels-content')
+              .classList.remove('hidden');
+            document.getElementById('sidebar-title').textContent = 'Guest Room';
+            break;
+          // Add other sections as needed
+        }
+
+        // Update active nav button
+        const activeButton = event.currentTarget;
+        activeButton.classList.add('nav-active');
+        activeButton.classList.remove('hover:bg-gray-900');
+        const activeIcon = activeButton.querySelector('i');
+        if (activeIcon) {
+          activeIcon.classList.add('text-white');
+          activeIcon.classList.remove('text-gray-400');
+        }
+      }
+
+      // Auto-resize textarea
+      document.addEventListener('input', function (e) {
+        if (e.target.tagName === 'TEXTAREA') {
+          e.target.style.height = 'auto';
+          e.target.style.height = e.target.scrollHeight + 'px';
+        }
+      });
+    </script>
+  </body>
+</html>
