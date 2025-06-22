@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:tailwindcss.com)",
-      "Bash(rg:*)"
+      "Bash(rg:*)",
+      "Bash(GIT_TERMINAL_PROMPT=0 git push -u origin main)",
+      "Bash(git push:*)"
     ],
     "deny": []
   }

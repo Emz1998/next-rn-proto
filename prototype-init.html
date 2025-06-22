@@ -10,7 +10,80 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
-      /* Custom scrollbar */
+      @layer base {
+        :root {
+          --background: 0 0% 97%;
+          --card: 0 0% 97%;
+          --popover: 0 0% 97%;
+          --sidebar: 0 0% 97%;
+          --foreground: 200 2% 10%;
+          --card-foreground: 200 2% 10%;
+          --popover-foreground: 200 2% 10%;
+          --sidebar-foreground: 200 2% 10%;
+          --primary: 200 100% 50%;
+          --sidebar-primary: 200 100% 50%;
+          --primary-foreground: 0 0% 95%;
+          --sidebar-primary-foreground: 0 0% 95%;
+          --secondary: 200 4% 85%;
+          --accent: 200 4% 85%;
+          --sidebar-accent: 200 4% 85%;
+          --secondary-foreground: 0 0% 10%;
+          --accent-foreground: 0 0% 10%;
+          --sidebar-accent-foreground: 0 0% 10%;
+          --muted: 200 2% 85%;
+          --muted-foreground: 201 2% 50%;
+          --destructive: 0 85% 50%;
+          --destructive-foreground: 0 0% 95%;
+          --border: 200 13% 78%;
+          --sidebar-border: 200 13% 78%;
+          --ring: 200 39% 73%;
+          --sidebar-ring: 200 39% 73%;
+          --input: 200 11% 78%;
+          --chart-1: 200 100% 50%;
+          --chart-2: 195 95% 47%;
+          --chart-3: 210 90% 44%;
+          --chart-4: 185 85% 41%;
+          --chart-5: 200 80% 38%;
+          --radius: 0.5rem;
+        }
+
+        .dark {
+          --background: 201 5% 12%;
+          --card: 201 5% 12%;
+          --popover: 201 5% 12%;
+          --sidebar: 201 5% 12%;
+          --foreground: 200 2% 95%;
+          --card-foreground: 200 2% 95%;
+          --popover-foreground: 200 2% 95%;
+          --sidebar-foreground: 200 2% 95%;
+          --primary: 200 100% 80%;
+          --sidebar-primary: 200 100% 80%;
+          --primary-foreground: 0 0% 10%;
+          --sidebar-primary-foreground: 0 0% 10%;
+          --secondary: 202 10% 20%;
+          --accent: 202 10% 20%;
+          --sidebar-accent: 202 10% 20%;
+          --secondary-foreground: 0 0% 95%;
+          --accent-foreground: 0 0% 95%;
+          --sidebar-accent-foreground: 0 0% 95%;
+          --muted: 201 7% 25%;
+          --muted-foreground: 201 3% 60%;
+          --destructive: 0 85% 55%;
+          --destructive-foreground: 0 0% 95%;
+          --border: 201 14% 22%;
+          --sidebar-border: 201 14% 22%;
+          --ring: 200 47% 27%;
+          --sidebar-ring: 200 47% 27%;
+          --input: 200 13% 22%;
+          --chart-1: 200 100% 80%;
+          --chart-2: 195 95% 80%;
+          --chart-3: 210 90% 80%;
+          --chart-4: 185 85% 80%;
+          --chart-5: 200 80% 80%;
+        }
+      }
+
+      /* Custom scrollbar with Shadcn colors */
       ::-webkit-scrollbar {
         width: 4px;
       }
@@ -18,7 +91,7 @@
         background: transparent;
       }
       ::-webkit-scrollbar-thumb {
-        background: #3b82f6;
+        background: hsl(var(--primary));
         border-radius: 2px;
       }
 
@@ -27,24 +100,25 @@
         transition: background-color 0.2s ease, color 0.2s ease;
       }
 
-      /* Active navigation state */
+      /* Active navigation state with Shadcn primary */
       .nav-active {
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
       }
     </style>
   </head>
-  <body class="bg-black text-white h-screen overflow-hidden font-sans">
+  <body class="dark bg-[hsl(var(--background))] text-[hsl(var(--foreground))] h-screen overflow-hidden font-sans">
     <!-- Main Container -->
     <div class="flex h-full">
       <!-- Sidebar Navigation -->
       <nav
-        class="w-16 bg-gray-950 flex flex-col items-center py-4 border-r border-gray-900"
+        class="w-16 bg-[hsl(var(--sidebar))] flex flex-col items-center py-4 border-r border-[hsl(var(--sidebar-border))]"
       >
         <!-- Logo -->
         <div
-          class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6"
+          class="w-10 h-10 bg-[hsl(var(--primary))] rounded-xl flex items-center justify-center mb-6"
         >
-          <span class="text-white font-bold text-lg">N</span>
+          <span class="text-[hsl(var(--foreground))] font-bold text-lg">N</span>
         </div>
 
         <!-- Navigation Icons -->
@@ -53,36 +127,42 @@
             class="w-10 h-10 rounded-xl flex items-center justify-center nav-active"
             onclick="showSection('threads')"
           >
-            <i data-lucide="message-square" class="w-5 h-5 text-white"></i>
+            <i data-lucide="message-square" class="w-5 h-5 text-[hsl(var(--foreground))]"></i>
           </button>
           <button
-            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-900"
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[hsl(var(--accent))]"
             onclick="showSection('chat')"
           >
-            <i data-lucide="message-circle" class="w-5 h-5 text-gray-400"></i>
+            <i data-lucide="message-circle" class="w-5 h-5 text-[hsl(var(--muted-foreground))]"></i>
           </button>
           <button
-            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-900"
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[hsl(var(--accent))]"
             onclick="showSection('livestream')"
           >
-            <i data-lucide="radio" class="w-5 h-5 text-gray-400"></i>
+            <i data-lucide="radio" class="w-5 h-5 text-[hsl(var(--muted-foreground))]"></i>
           </button>
           <button
-            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-900"
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[hsl(var(--accent))]"
             onclick="showSection('guest')"
           >
-            <i data-lucide="door-open" class="w-5 h-5 text-gray-400"></i>
+            <i data-lucide="door-closed" class="w-5 h-5 text-[hsl(var(--muted-foreground))]"></i>
+          </button>
+          <button
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[hsl(var(--accent))]"
+            onclick="showSection('hall')"
+          >
+            <i data-lucide="trophy" class="w-5 h-5 text-[hsl(var(--muted-foreground))]"></i>
           </button>
         </div>
 
         <!-- Bottom Actions -->
         <div class="mt-auto flex flex-col gap-4">
           <button
-            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-900"
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[hsl(var(--accent))]"
           >
-            <i data-lucide="settings" class="w-5 h-5 text-gray-400"></i>
+            <i data-lucide="settings" class="w-5 h-5 text-[hsl(var(--muted-foreground))]"></i>
           </button>
-          <div class="w-10 h-10 rounded-full bg-gray-800 overflow-hidden">
+          <div class="w-10 h-10 rounded-full bg-[hsl(var(--muted))] overflow-hidden">
             <img
               src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%234b5563'/%3E%3C/svg%3E"
               alt="Profile"
@@ -92,144 +172,23 @@
         </div>
       </nav>
 
-      <!-- Channel List -->
-      <div class="w-56 bg-gray-950 border-r border-gray-900 flex flex-col">
-        <!-- Header -->
-        <div class="p-4 border-b border-gray-900">
-          <h2 id="sidebar-title" class="text-sm font-semibold text-gray-300">
-            Threaded Lobby
-          </h2>
-        </div>
-
-        <!-- Channels -->
-        <div id="channels-content" class="flex-1 overflow-y-auto p-2">
-          <div class="mb-4">
-            <p class="text-xs uppercase text-gray-500 px-2 mb-2">Study Rooms</p>
-            <button
-              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2 bg-gray-900"
-            >
-              <span class="text-gray-400">#</span>
-              <span class="text-sm text-white">nclex-prep</span>
-              <span
-                class="ml-auto text-xs bg-blue-500 text-white rounded-full px-1.5"
-                >3</span
-              >
-            </button>
-            <button
-              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
-            >
-              <span class="text-gray-400">#</span>
-              <span class="text-sm text-gray-300">pharmacology</span>
-            </button>
-            <button
-              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
-            >
-              <span class="text-gray-400">#</span>
-              <span class="text-sm text-gray-300">clinical-skills</span>
-            </button>
-          </div>
-
-          <div class="mb-4">
-            <p class="text-xs uppercase text-gray-500 px-2 mb-2">
-              Live Sessions
-            </p>
-            <button
-              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
-            >
-              <i data-lucide="radio" class="w-4 h-4 text-red-500"></i>
-              <span class="text-sm text-gray-300">RN Emma Live</span>
-              <span class="ml-auto text-xs text-gray-500">247</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Direct Messages Sidebar (hidden by default) -->
-        <div id="dm-content" class="flex-1 overflow-y-auto p-2 hidden">
-          <div class="mb-4">
-            <p class="text-xs uppercase text-gray-500 px-2 mb-2">VIP Mentors</p>
-            <button
-              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
-            >
-              <div
-                class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center"
-              >
-                <span class="text-xs text-white font-semibold">VIP</span>
-              </div>
-              <span class="text-sm text-gray-300">RN Marcus</span>
-              <i
-                data-lucide="dollar-sign"
-                class="w-3 h-3 text-green-500 ml-auto"
-              ></i>
-            </button>
-            <button
-              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
-            >
-              <div
-                class="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-purple-500 flex items-center justify-center"
-              >
-                <span class="text-xs text-white font-semibold">VIP</span>
-              </div>
-              <span class="text-sm text-gray-300">RN Sarah</span>
-              <i
-                data-lucide="dollar-sign"
-                class="w-3 h-3 text-green-500 ml-auto"
-              ></i>
-            </button>
-          </div>
-
-          <div>
-            <p class="text-xs uppercase text-gray-500 px-2 mb-2">
-              Recent Messages
-            </p>
-            <button
-              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2 bg-gray-900"
-            >
-              <div class="w-6 h-6 rounded-full bg-gray-600"></div>
-              <div class="flex-1">
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-white">RN Emma</span>
-                  <span class="text-xs text-gray-500">2m</span>
-                </div>
-                <p class="text-xs text-gray-400 truncate">
-                  You're welcome! Let me know if...
-                </p>
-              </div>
-              <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-            </button>
-            <button
-              class="w-full text-left px-3 py-1.5 rounded hover:bg-gray-900 flex items-center gap-2"
-            >
-              <div class="w-6 h-6 rounded-full bg-gray-600"></div>
-              <div class="flex-1">
-                <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-300">Study Group</span>
-                  <span class="text-xs text-gray-500">1h</span>
-                </div>
-                <p class="text-xs text-gray-400 truncate">
-                  Sofia: Thanks for the help!
-                </p>
-              </div>
-            </button>
-          </div>
-        </div>
-      </div>
 
       <!-- Main Content Area -->
-      <div class="flex-1 flex flex-col bg-black">
+      <div class="flex-1 flex flex-col bg-[hsl(var(--background))]">
         <!-- Threads Section (Home) -->
         <div id="threads-section" class="flex-1 flex flex-col">
           <!-- Header -->
-          <header class="h-14 border-b border-gray-900 flex items-center px-4">
+          <header class="h-14 border-b border-[hsl(var(--border))] flex items-center px-4">
             <i
               data-lucide="message-square"
-              class="w-5 h-5 text-gray-400 mr-2"
+              class="w-5 h-5 text-[hsl(var(--muted-foreground))] mr-2"
             ></i>
             <h1 class="text-base font-semibold">Threads</h1>
             <div class="ml-auto flex items-center gap-3">
-              <button class="text-gray-400 hover:text-white">
+              <button class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
                 <i data-lucide="search" class="w-5 h-5"></i>
               </button>
-              <button class="text-gray-400 hover:text-white">
+              <button class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
                 <i data-lucide="filter" class="w-5 h-5"></i>
               </button>
             </div>
@@ -238,25 +197,25 @@
           <!-- Threads Feed -->
           <div class="flex-1 overflow-y-auto">
             <!-- Thread 1 -->
-            <div class="border-b border-gray-900 p-4 hover:bg-gray-950/50">
+            <div class="border-b border-[hsl(var(--border))] p-4 hover:bg-[hsl(var(--card))]/50">
               <div class="flex gap-3">
                 <div
-                  class="w-10 h-10 rounded-full bg-gray-700 flex-shrink-0"
+                  class="w-10 h-10 rounded-full bg-[hsl(var(--muted))] flex-shrink-0"
                 ></div>
                 <div class="flex-1">
                   <div class="flex items-center gap-2 mb-1">
                     <span class="text-sm font-medium">Sofia M.</span>
-                    <span class="text-xs text-gray-500">@sofia_nurse</span>
-                    <span class="text-xs text-gray-600">·</span>
-                    <span class="text-xs text-gray-600">2h</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">@sofia_nurse</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">·</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">2h</span>
                   </div>
-                  <p class="text-sm text-gray-200 mb-3">
+                  <p class="text-sm text-[hsl(var(--foreground))] mb-3">
                     Just had my first successful IV insertion today! 💉 Shoutout
                     to RN Emma for the amazing tips yesterday. Practice really
                     does make perfect! #NursingStudent #ClinicalSkills
                   </p>
 
-                  <div class="flex items-center gap-6 text-gray-400">
+                  <div class="flex items-center gap-6 text-[hsl(var(--muted-foreground))]">
                     <button class="flex items-center gap-1 hover:text-blue-400">
                       <i data-lucide="message-circle" class="w-4 h-4"></i>
                       <span class="text-xs">12</span>
@@ -280,12 +239,12 @@
             </div>
 
             <!-- Thread 2 -->
-            <div class="border-b border-gray-900 p-4 hover:bg-gray-950/50">
+            <div class="border-b border-[hsl(var(--border))] p-4 hover:bg-[hsl(var(--card))]/50">
               <div class="flex gap-3">
                 <div
                   class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex-shrink-0 flex items-center justify-center"
                 >
-                  <i data-lucide="check" class="w-4 h-4 text-white"></i>
+                  <i data-lucide="check" class="w-4 h-4 text-[hsl(var(--foreground))]"></i>
                 </div>
                 <div class="flex-1">
                   <div class="flex items-center gap-2 mb-1">
@@ -293,19 +252,19 @@
                       >RN Emma</span
                     >
                     <span
-                      class="text-xs bg-blue-500/20 text-blue-400 px-1.5 rounded"
+                      class="text-xs bg-[hsl(var(--primary))]/20 text-blue-400 px-1.5 rounded"
                       >Verified RN</span
                     >
-                    <span class="text-xs text-gray-600">·</span>
-                    <span class="text-xs text-gray-600">4h</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">·</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">4h</span>
                   </div>
-                  <p class="text-sm text-gray-200 mb-3">
+                  <p class="text-sm text-[hsl(var(--foreground))] mb-3">
                     Quick tip for new nursing students: When calculating
                     pediatric dosages, always double-check your math and have
                     another nurse verify. Patient safety is our #1 priority! 🏥
                   </p>
 
-                  <div class="flex items-center gap-6 text-gray-400">
+                  <div class="flex items-center gap-6 text-[hsl(var(--muted-foreground))]">
                     <button class="flex items-center gap-1 hover:text-blue-400">
                       <i data-lucide="message-circle" class="w-4 h-4"></i>
                       <span class="text-xs">45</span>
@@ -329,25 +288,25 @@
             </div>
 
             <!-- Thread 3 -->
-            <div class="border-b border-gray-900 p-4 hover:bg-gray-950/50">
+            <div class="border-b border-[hsl(var(--border))] p-4 hover:bg-[hsl(var(--card))]/50">
               <div class="flex gap-3">
                 <div
-                  class="w-10 h-10 rounded-full bg-gray-700 flex-shrink-0"
+                  class="w-10 h-10 rounded-full bg-[hsl(var(--muted))] flex-shrink-0"
                 ></div>
                 <div class="flex-1">
                   <div class="flex items-center gap-2 mb-1">
                     <span class="text-sm font-medium">Marcus J.</span>
-                    <span class="text-xs text-gray-500">@marcus_rn</span>
-                    <span class="text-xs text-gray-600">·</span>
-                    <span class="text-xs text-gray-600">6h</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">@marcus_rn</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">·</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">6h</span>
                   </div>
-                  <p class="text-sm text-gray-200 mb-3">
+                  <p class="text-sm text-[hsl(var(--foreground))] mb-3">
                     Studying for NCLEX and feeling overwhelmed? Remember: focus
                     on safety and prioritization. What would you do FIRST?
                     That's usually your answer! 📚
                   </p>
 
-                  <div class="flex items-center gap-6 text-gray-400">
+                  <div class="flex items-center gap-6 text-[hsl(var(--muted-foreground))]">
                     <button class="flex items-center gap-1 hover:text-blue-400">
                       <i data-lucide="message-circle" class="w-4 h-4"></i>
                       <span class="text-xs">23</span>
@@ -372,15 +331,15 @@
           </div>
 
           <!-- New Thread Input -->
-          <div class="p-4 border-t border-gray-900">
+          <div class="p-4 border-t border-[hsl(var(--border))]">
             <div class="flex gap-3">
               <div
-                class="w-10 h-10 rounded-full bg-gray-700 flex-shrink-0"
+                class="w-10 h-10 rounded-full bg-[hsl(var(--muted))] flex-shrink-0"
               ></div>
               <div class="flex-1">
                 <textarea
                   placeholder="What's happening in nursing school?"
-                  class="w-full bg-transparent text-lg placeholder-gray-500 resize-none outline-none"
+                  class="w-full bg-[hsl(var(--background))] text-lg placeholder-gray-500 resize-none outline-none"
                   rows="3"
                 ></textarea>
                 <div class="flex items-center justify-between mt-3">
@@ -396,7 +355,7 @@
                     </button>
                   </div>
                   <button
-                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-medium"
+                    class="bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-1.5 rounded-full text-sm font-medium"
                   >
                     Post
                   </button>
@@ -409,26 +368,26 @@
         <!-- Direct Messages Section -->
         <div id="chat-section" class="flex-1 flex-col hidden">
           <!-- Chat Header -->
-          <header class="h-14 border-b border-gray-900 flex items-center px-4">
+          <header class="h-14 border-b border-[hsl(var(--border))] flex items-center px-4">
             <div
               class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center mr-3"
             >
-              <span class="text-xs text-white font-semibold">VIP</span>
+              <span class="text-xs text-[hsl(var(--foreground))] font-semibold">VIP</span>
             </div>
             <div class="flex-1">
               <h1 class="text-base font-semibold">RN Emma</h1>
-              <p class="text-xs text-gray-500">
+              <p class="text-xs text-[hsl(var(--muted-foreground))]">
                 Verified RN • Available for $2/question
               </p>
             </div>
             <div class="flex items-center gap-3">
-              <button class="text-gray-400 hover:text-white">
+              <button class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
                 <i data-lucide="phone" class="w-5 h-5"></i>
               </button>
-              <button class="text-gray-400 hover:text-white">
+              <button class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
                 <i data-lucide="video" class="w-5 h-5"></i>
               </button>
-              <button class="text-gray-400 hover:text-white">
+              <button class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
                 <i data-lucide="info" class="w-5 h-5"></i>
               </button>
             </div>
@@ -441,31 +400,31 @@
               <div
                 class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center flex-shrink-0"
               >
-                <span class="text-xs text-white font-semibold">E</span>
+                <span class="text-xs text-[hsl(var(--foreground))] font-semibold">E</span>
               </div>
               <div class="flex-1">
-                <div class="bg-gray-900 rounded-2xl rounded-tl-md p-3 max-w-xs">
-                  <p class="text-sm text-gray-200">
+                <div class="bg-[hsl(var(--muted))] rounded-2xl rounded-tl-md p-3 max-w-xs">
+                  <p class="text-sm text-[hsl(var(--foreground))]">
                     Hi! I saw your question about pediatric dosages. For a 25kg
                     child, the correct acetaminophen dose is 10-15 mg/kg. So
                     that would be 250-375mg per dose.
                   </p>
                 </div>
-                <span class="text-xs text-gray-500 mt-1 block">2:34 PM</span>
+                <span class="text-xs text-[hsl(var(--muted-foreground))] mt-1 block">2:34 PM</span>
               </div>
             </div>
 
             <!-- Message from user -->
             <div class="flex items-start gap-3 justify-end">
               <div class="flex-1 flex justify-end">
-                <div class="bg-blue-500 rounded-2xl rounded-tr-md p-3 max-w-xs">
-                  <p class="text-sm text-white">
+                <div class="bg-[hsl(var(--primary))] rounded-2xl rounded-tr-md p-3 max-w-xs">
+                  <p class="text-sm text-[hsl(var(--foreground))]">
                     Thank you so much! That really helps. I was getting confused
                     with the calculations.
                   </p>
                 </div>
               </div>
-              <div class="w-8 h-8 rounded-full bg-gray-700 flex-shrink-0"></div>
+              <div class="w-8 h-8 rounded-full bg-[hsl(var(--muted))] flex-shrink-0"></div>
             </div>
 
             <!-- Payment notice -->
@@ -488,41 +447,41 @@
               <div
                 class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center flex-shrink-0"
               >
-                <span class="text-xs text-white font-semibold">E</span>
+                <span class="text-xs text-[hsl(var(--foreground))] font-semibold">E</span>
               </div>
               <div class="flex-1">
-                <div class="bg-gray-900 rounded-2xl rounded-tl-md p-3 max-w-xs">
-                  <p class="text-sm text-gray-200">
+                <div class="bg-[hsl(var(--muted))] rounded-2xl rounded-tl-md p-3 max-w-xs">
+                  <p class="text-sm text-[hsl(var(--foreground))]">
                     You're welcome! Remember to always double-check with another
                     nurse when you're on the floor. Feel free to ask more
                     questions anytime!
                   </p>
                 </div>
-                <span class="text-xs text-gray-500 mt-1 block">2:45 PM</span>
+                <span class="text-xs text-[hsl(var(--muted-foreground))] mt-1 block">2:45 PM</span>
               </div>
             </div>
           </div>
 
           <!-- Message Input -->
-          <div class="p-4 border-t border-gray-900">
-            <div class="bg-gray-950 rounded-2xl flex items-end px-4 py-2">
+          <div class="p-4 border-t border-[hsl(var(--border))]">
+            <div class="bg-[hsl(var(--card))] rounded-2xl flex items-end px-4 py-2">
               <textarea
                 placeholder="Ask a question ($2)..."
-                class="bg-transparent flex-1 text-sm outline-none placeholder-gray-500 resize-none max-h-20"
+                class="bg-[hsl(var(--background))] flex-1 text-sm outline-none placeholder-gray-500 resize-none max-h-20"
                 rows="1"
               ></textarea>
               <div class="flex items-center gap-3 ml-4">
-                <button class="text-gray-400 hover:text-white">
+                <button class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
                   <i data-lucide="paperclip" class="w-4 h-4"></i>
                 </button>
                 <button
-                  class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-full"
+                  class="bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] p-2 rounded-full"
                 >
                   <i data-lucide="send" class="w-4 h-4"></i>
                 </button>
               </div>
             </div>
-            <p class="text-xs text-gray-500 mt-2 text-center">
+            <p class="text-xs text-[hsl(var(--muted-foreground))] mt-2 text-center">
               $2 per question • Instant expert answers
             </p>
           </div>
@@ -531,23 +490,23 @@
         <!-- Livestream Section -->
         <div id="livestream-section" class="flex-1 flex-col bg-black hidden">
           <!-- Livestream Header -->
-          <header class="h-14 border-b border-gray-900 flex items-center px-4">
+          <header class="h-14 border-b border-[hsl(var(--border))] flex items-center px-4">
             <div class="flex items-center gap-3">
               <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
               <i data-lucide="radio" class="w-5 h-5 text-red-500"></i>
               <div>
                 <h1 class="text-base font-semibold">RN Emma Live</h1>
-                <p class="text-xs text-gray-500">
+                <p class="text-xs text-[hsl(var(--muted-foreground))]">
                   NCLEX Prep & Dosage Calculations
                 </p>
               </div>
             </div>
             <div class="ml-auto flex items-center gap-4">
-              <div class="flex items-center gap-1 text-gray-400">
+              <div class="flex items-center gap-1 text-[hsl(var(--muted-foreground))]">
                 <i data-lucide="users" class="w-4 h-4"></i>
                 <span class="text-sm">247</span>
               </div>
-              <button class="text-gray-400 hover:text-white">
+              <button class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
                 <i data-lucide="share-2" class="w-5 h-5"></i>
               </button>
             </div>
@@ -558,7 +517,7 @@
             <div class="flex-1 flex flex-col">
               <!-- Video Stream -->
               <div
-                class="relative bg-gray-900 aspect-video flex items-center justify-center"
+                class="relative bg-[hsl(var(--muted))] aspect-video flex items-center justify-center"
               >
                 <!-- Simulated video content -->
                 <div
@@ -568,19 +527,19 @@
                   <div
                     class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center mx-auto mb-4"
                   >
-                    <i data-lucide="user" class="w-12 h-12 text-white"></i>
+                    <i data-lucide="user" class="w-12 h-12 text-[hsl(var(--foreground))]"></i>
                   </div>
-                  <h3 class="text-xl font-semibold text-white mb-2">
+                  <h3 class="text-xl font-semibold text-[hsl(var(--foreground))] mb-2">
                     RN Emma Rodriguez
                   </h3>
-                  <p class="text-gray-300 text-sm">
+                  <p class="text-[hsl(var(--foreground))] text-sm">
                     ICU Nurse • 8+ years experience
                   </p>
                 </div>
 
                 <!-- Live indicator -->
                 <div
-                  class="absolute top-4 left-4 bg-red-500 text-white px-2 py-1 rounded text-xs font-semibold flex items-center gap-1"
+                  class="absolute top-4 left-4 bg-red-500 text-[hsl(var(--foreground))] px-2 py-1 rounded text-xs font-semibold flex items-center gap-1"
                 >
                   <div
                     class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"
@@ -590,7 +549,7 @@
 
                 <!-- Viewer count -->
                 <div
-                  class="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-white px-2 py-1 rounded text-xs flex items-center gap-1"
+                  class="absolute top-4 right-4 bg-black/50 backdrop-blur-sm text-[hsl(var(--foreground))] px-2 py-1 rounded text-xs flex items-center gap-1"
                 >
                   <i data-lucide="eye" class="w-3 h-3"></i>
                   247 watching
@@ -602,14 +561,14 @@
                 >
                   <div class="flex items-center gap-3">
                     <button
-                      class="w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70"
+                      class="w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-[hsl(var(--foreground))] hover:bg-black/70"
                     >
                       <i data-lucide="volume-2" class="w-5 h-5"></i>
                     </button>
                   </div>
                   <div class="flex items-center gap-2">
                     <button
-                      class="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70"
+                      class="w-8 h-8 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-[hsl(var(--foreground))] hover:bg-black/70"
                     >
                       <i data-lucide="maximize" class="w-4 h-4"></i>
                     </button>
@@ -618,13 +577,13 @@
               </div>
 
               <!-- Stream Info & Actions -->
-              <div class="p-4 border-b border-gray-900">
+              <div class="p-4 border-b border-[hsl(var(--border))]">
                 <div class="flex items-start justify-between mb-3">
                   <div class="flex-1">
-                    <h2 class="text-lg font-semibold text-white mb-1">
+                    <h2 class="text-lg font-semibold text-[hsl(var(--foreground))] mb-1">
                       NCLEX Prep Session: Medication Dosage Calculations
                     </h2>
-                    <p class="text-sm text-gray-400">
+                    <p class="text-sm text-[hsl(var(--muted-foreground))]">
                       Join us for live Q&A on pediatric and adult dosage
                       calculations. Bring your questions!
                     </p>
@@ -633,19 +592,19 @@
 
                 <div class="flex items-center gap-4">
                   <button
-                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
+                    class="bg-green-500 hover:bg-green-600 text-[hsl(var(--foreground))] px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
                   >
                     <i data-lucide="dollar-sign" class="w-4 h-4"></i>
                     Super Chat ($1)
                   </button>
                   <button
-                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
+                    class="bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
                   >
                     <i data-lucide="heart" class="w-4 h-4"></i>
                     Follow
                   </button>
                   <button
-                    class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
+                    class="bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
                   >
                     <i data-lucide="bell" class="w-4 h-4"></i>
                     Notify
@@ -655,8 +614,8 @@
 
               <!-- Live Chat -->
               <div class="flex-1 flex flex-col">
-                <div class="p-3 border-b border-gray-900">
-                  <h3 class="text-sm font-semibold text-gray-300">Live Chat</h3>
+                <div class="p-3 border-b border-[hsl(var(--border))]">
+                  <h3 class="text-sm font-semibold text-[hsl(var(--foreground))]">Live Chat</h3>
                 </div>
 
                 <div class="flex-1 overflow-y-auto p-3 space-y-3">
@@ -681,7 +640,7 @@
                         >$5 Super Chat</span
                       >
                     </div>
-                    <p class="text-sm text-gray-200">
+                    <p class="text-sm text-[hsl(var(--foreground))]">
                       Can you explain the difference between mg/kg and mg/kg/day
                       for pediatric calculations?
                     </p>
@@ -690,16 +649,16 @@
                   <!-- Regular chat messages -->
                   <div class="flex items-start gap-2">
                     <div
-                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                      class="w-6 h-6 rounded-full bg-[hsl(var(--muted))] flex-shrink-0"
                     ></div>
                     <div>
                       <div class="flex items-baseline gap-2">
                         <span class="text-sm font-medium text-blue-400"
                           >Marcus_RN</span
                         >
-                        <span class="text-xs text-gray-500">2:34 PM</span>
+                        <span class="text-xs text-[hsl(var(--muted-foreground))]">2:34 PM</span>
                       </div>
-                      <p class="text-sm text-gray-200">
+                      <p class="text-sm text-[hsl(var(--foreground))]">
                         Great explanation Emma! This is exactly what I needed
                         for my exam tomorrow 📚
                       </p>
@@ -708,16 +667,16 @@
 
                   <div class="flex items-start gap-2">
                     <div
-                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                      class="w-6 h-6 rounded-full bg-[hsl(var(--muted))] flex-shrink-0"
                     ></div>
                     <div>
                       <div class="flex items-baseline gap-2">
-                        <span class="text-sm font-medium text-gray-300"
+                        <span class="text-sm font-medium text-[hsl(var(--foreground))]"
                           >StudentNurse2025</span
                         >
-                        <span class="text-xs text-gray-500">2:35 PM</span>
+                        <span class="text-xs text-[hsl(var(--muted-foreground))]">2:35 PM</span>
                       </div>
-                      <p class="text-sm text-gray-200">
+                      <p class="text-sm text-[hsl(var(--foreground))]">
                         Following! Love these live sessions 💙
                       </p>
                     </div>
@@ -725,16 +684,16 @@
 
                   <div class="flex items-start gap-2">
                     <div
-                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                      class="w-6 h-6 rounded-full bg-[hsl(var(--muted))] flex-shrink-0"
                     ></div>
                     <div>
                       <div class="flex items-baseline gap-2">
-                        <span class="text-sm font-medium text-gray-300"
+                        <span class="text-sm font-medium text-[hsl(var(--foreground))]"
                           >Lisa_Studying</span
                         >
-                        <span class="text-xs text-gray-500">2:36 PM</span>
+                        <span class="text-xs text-[hsl(var(--muted-foreground))]">2:36 PM</span>
                       </div>
-                      <p class="text-sm text-gray-200">
+                      <p class="text-sm text-[hsl(var(--foreground))]">
                         Question: How do you calculate drip rates for IV fluids?
                       </p>
                     </div>
@@ -742,7 +701,7 @@
 
                   <div class="flex items-start gap-2">
                     <div
-                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                      class="w-6 h-6 rounded-full bg-[hsl(var(--muted))] flex-shrink-0"
                     ></div>
                     <div>
                       <div class="flex items-baseline gap-2">
@@ -753,9 +712,9 @@
                           class="text-xs bg-purple-500/20 text-purple-400 px-1.5 rounded text-xs"
                           >Moderator</span
                         >
-                        <span class="text-xs text-gray-500">2:37 PM</span>
+                        <span class="text-xs text-[hsl(var(--muted-foreground))]">2:37 PM</span>
                       </div>
-                      <p class="text-sm text-gray-200">
+                      <p class="text-sm text-[hsl(var(--foreground))]">
                         Remember to always double-check your calculations with
                         another nurse! Safety first! 🏥
                       </p>
@@ -765,16 +724,16 @@
                   <!-- New messages continue to appear -->
                   <div class="flex items-start gap-2">
                     <div
-                      class="w-6 h-6 rounded-full bg-gray-600 flex-shrink-0"
+                      class="w-6 h-6 rounded-full bg-[hsl(var(--muted))] flex-shrink-0"
                     ></div>
                     <div>
                       <div class="flex items-baseline gap-2">
-                        <span class="text-sm font-medium text-gray-300"
+                        <span class="text-sm font-medium text-[hsl(var(--foreground))]"
                           >Jake_ClinicalYear</span
                         >
-                        <span class="text-xs text-gray-500">2:38 PM</span>
+                        <span class="text-xs text-[hsl(var(--muted-foreground))]">2:38 PM</span>
                       </div>
-                      <p class="text-sm text-gray-200">
+                      <p class="text-sm text-[hsl(var(--foreground))]">
                         This is helping me so much with my dosage calc homework!
                         Thank you! 🙏
                       </p>
@@ -783,33 +742,33 @@
                 </div>
 
                 <!-- Chat input -->
-                <div class="p-3 border-t border-gray-900">
+                <div class="p-3 border-t border-[hsl(var(--border))]">
                   <div class="flex gap-2">
                     <div
-                      class="flex-1 bg-gray-900 rounded-lg px-3 py-2 flex items-center"
+                      class="flex-1 bg-[hsl(var(--muted))] rounded-lg px-3 py-2 flex items-center"
                     >
                       <input
                         type="text"
                         placeholder="Send a message..."
-                        class="bg-transparent flex-1 text-sm outline-none placeholder-gray-500"
+                        class="bg-[hsl(var(--background))] flex-1 text-sm outline-none placeholder-gray-500"
                       />
-                      <button class="text-gray-400 hover:text-white ml-2">
+                      <button class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] ml-2">
                         <i data-lucide="smile" class="w-4 h-4"></i>
                       </button>
                     </div>
                     <button
-                      class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg flex items-center gap-1 text-sm"
+                      class="bg-green-500 hover:bg-green-600 text-[hsl(var(--foreground))] px-3 py-2 rounded-lg flex items-center gap-1 text-sm"
                     >
                       <i data-lucide="dollar-sign" class="w-3 h-3"></i>
                       $1
                     </button>
                     <button
-                      class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg"
+                      class="bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-3 py-2 rounded-lg"
                     >
                       <i data-lucide="send" class="w-4 h-4"></i>
                     </button>
                   </div>
-                  <p class="text-xs text-gray-500 mt-1">
+                  <p class="text-xs text-[hsl(var(--muted-foreground))] mt-1">
                     Use Super Chat ($1) to highlight your question
                   </p>
                 </div>
@@ -820,8 +779,8 @@
 
         <!-- Guest Room Section -->
         <div id="guest-section" class="flex-1 flex-col bg-black hidden">
-          <header class="h-14 border-b border-gray-900 flex items-center px-4">
-            <i data-lucide="door-open" class="w-5 h-5 text-gray-400 mr-2"></i>
+          <header class="h-14 border-b border-[hsl(var(--border))] flex items-center px-4">
+            <i data-lucide="door-closed" class="w-5 h-5 text-[hsl(var(--muted-foreground))] mr-2"></i>
             <h1 class="text-base font-semibold">Guest Room</h1>
           </header>
 
@@ -829,33 +788,33 @@
             <!-- To-Do List -->
             <div class="mb-6">
               <h2
-                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
               >
                 <i data-lucide="check-square" class="w-4 h-4"></i>
                 Today's Tasks
               </h2>
               <div class="space-y-2">
                 <div
-                  class="bg-gray-950 rounded-lg p-3 border border-gray-900 flex items-center gap-3"
+                  class="bg-[hsl(var(--card))] rounded-lg p-3 border border-[hsl(var(--border))] flex items-center gap-3"
                 >
                   <input
                     type="checkbox"
-                    class="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-500"
+                    class="w-4 h-4 rounded border-gray-600 bg-[hsl(var(--muted))] text-blue-500"
                   />
-                  <span class="text-sm text-gray-200 flex-1"
+                  <span class="text-sm text-[hsl(var(--foreground))] flex-1"
                     >Complete pharmacology chapter 5</span
                   >
-                  <span class="text-xs text-gray-500">Due 3pm</span>
+                  <span class="text-xs text-[hsl(var(--muted-foreground))]">Due 3pm</span>
                 </div>
                 <div
-                  class="bg-gray-950 rounded-lg p-3 border border-gray-900 flex items-center gap-3"
+                  class="bg-[hsl(var(--card))] rounded-lg p-3 border border-[hsl(var(--border))] flex items-center gap-3"
                 >
                   <input
                     type="checkbox"
-                    class="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-500"
+                    class="w-4 h-4 rounded border-gray-600 bg-[hsl(var(--muted))] text-blue-500"
                     checked
                   />
-                  <span class="text-sm text-gray-400 line-through flex-1"
+                  <span class="text-sm text-[hsl(var(--muted-foreground))] line-through flex-1"
                     >Practice IV insertion technique</span
                   >
                   <i data-lucide="check" class="w-4 h-4 text-green-500"></i>
@@ -866,29 +825,29 @@
             <!-- Calendar -->
             <div class="mb-6">
               <h2
-                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
               >
                 <i data-lucide="calendar" class="w-4 h-4"></i>
                 Upcoming Schedule
               </h2>
               <div
-                class="bg-gray-950 rounded-lg p-3 border border-gray-900 space-y-2"
+                class="bg-[hsl(var(--card))] rounded-lg p-3 border border-[hsl(var(--border))] space-y-2"
               >
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2">
-                    <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span class="text-sm text-gray-200"
+                    <div class="w-2 h-2 bg-[hsl(var(--primary))] rounded-full"></div>
+                    <span class="text-sm text-[hsl(var(--foreground))]"
                       >Clinical Rotation - Pediatrics</span
                     >
                   </div>
-                  <span class="text-xs text-gray-500">Tomorrow 7am</span>
+                  <span class="text-xs text-[hsl(var(--muted-foreground))]">Tomorrow 7am</span>
                 </div>
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2">
                     <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span class="text-sm text-gray-200">NCLEX Study Group</span>
+                    <span class="text-sm text-[hsl(var(--foreground))]">NCLEX Study Group</span>
                   </div>
-                  <span class="text-xs text-gray-500">Fri 2pm</span>
+                  <span class="text-xs text-[hsl(var(--muted-foreground))]">Fri 2pm</span>
                 </div>
               </div>
             </div>
@@ -896,7 +855,7 @@
             <!-- Reminders -->
             <div class="mb-6">
               <h2
-                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
               >
                 <i data-lucide="bell" class="w-4 h-4"></i>
                 Reminders
@@ -913,16 +872,16 @@
             <!-- Journal -->
             <div class="mb-6">
               <h2
-                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
               >
                 <i data-lucide="book-open" class="w-4 h-4"></i>
                 Clinical Journal
               </h2>
-              <div class="bg-gray-950 rounded-lg p-3 border border-gray-900">
-                <p class="text-xs text-gray-500 mb-1">
+              <div class="bg-[hsl(var(--card))] rounded-lg p-3 border border-[hsl(var(--border))]">
+                <p class="text-xs text-[hsl(var(--muted-foreground))] mb-1">
                   Latest Entry - Today 2:45 PM
                 </p>
-                <p class="text-sm text-gray-200">
+                <p class="text-sm text-[hsl(var(--foreground))]">
                   Successful first IV insertion! Patient was very
                   understanding...
                 </p>
@@ -935,7 +894,7 @@
             <!-- Skills Progress -->
             <div>
               <h2
-                class="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2"
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
               >
                 <i data-lucide="trending-up" class="w-4 h-4"></i>
                 Skills Progress
@@ -943,12 +902,12 @@
               <div class="space-y-3">
                 <div>
                   <div class="flex justify-between items-center mb-1">
-                    <span class="text-sm text-gray-300"
+                    <span class="text-sm text-[hsl(var(--foreground))]"
                       >Medication Administration</span
                     >
-                    <span class="text-xs text-gray-500">85%</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">85%</span>
                   </div>
-                  <div class="w-full bg-gray-800 rounded-full h-2">
+                  <div class="w-full bg-[hsl(var(--muted))] rounded-full h-2">
                     <div
                       class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full"
                       style="width: 85%"
@@ -957,12 +916,12 @@
                 </div>
                 <div>
                   <div class="flex justify-between items-center mb-1">
-                    <span class="text-sm text-gray-300"
+                    <span class="text-sm text-[hsl(var(--foreground))]"
                       >Patient Assessment</span
                     >
-                    <span class="text-xs text-gray-500">72%</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">72%</span>
                   </div>
-                  <div class="w-full bg-gray-800 rounded-full h-2">
+                  <div class="w-full bg-[hsl(var(--muted))] rounded-full h-2">
                     <div
                       class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full"
                       style="width: 72%"
@@ -971,15 +930,158 @@
                 </div>
                 <div>
                   <div class="flex justify-between items-center mb-1">
-                    <span class="text-sm text-gray-300">IV Therapy</span>
-                    <span class="text-xs text-gray-500">45%</span>
+                    <span class="text-sm text-[hsl(var(--foreground))]">IV Therapy</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">45%</span>
                   </div>
-                  <div class="w-full bg-gray-800 rounded-full h-2">
+                  <div class="w-full bg-[hsl(var(--muted))] rounded-full h-2">
                     <div
                       class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full"
                       style="width: 45%"
                     ></div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hall of Excellence Section -->
+        <div id="hall-section" class="flex-1 flex-col bg-black hidden">
+          <header class="h-14 border-b border-[hsl(var(--border))] flex items-center px-4">
+            <i data-lucide="trophy" class="w-5 h-5 text-yellow-500 mr-2"></i>
+            <h1 class="text-base font-semibold">Hall of Excellence</h1>
+          </header>
+
+          <div class="flex-1 overflow-y-auto p-4">
+            <!-- Top Mentors -->
+            <div class="mb-6">
+              <h2 class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2">
+                <i data-lucide="star" class="w-4 h-4 text-yellow-500"></i>
+                Top Mentors This Month
+              </h2>
+              <div class="space-y-3">
+                <div class="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-lg p-4 border border-yellow-500/20">
+                  <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-500 flex items-center justify-center">
+                      <i data-lucide="crown" class="w-6 h-6 text-[hsl(var(--foreground))]"></i>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2">
+                        <span class="text-lg font-semibold text-yellow-400">RN Emma Rodriguez</span>
+                        <span class="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded">ICU • 8yr exp</span>
+                      </div>
+                      <div class="flex items-center gap-4 mt-1">
+                        <span class="text-sm text-[hsl(var(--foreground))]">567 questions answered</span>
+                        <span class="text-sm text-green-400">$2,340 earned</span>
+                        <span class="text-sm text-blue-400">4.9★ rating</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-[hsl(var(--card))] rounded-lg p-4 border border-gray-700">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-400 to-gray-500 flex items-center justify-center">
+                      <span class="text-[hsl(var(--foreground))] font-bold">2</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2">
+                        <span class="text-base font-semibold text-[hsl(var(--foreground))]">RN Marcus Johnson</span>
+                        <span class="text-xs bg-[hsl(var(--primary))]/20 text-blue-400 px-2 py-1 rounded">ER • 5yr exp</span>
+                      </div>
+                      <div class="flex items-center gap-4 mt-1">
+                        <span class="text-sm text-[hsl(var(--muted-foreground))]">423 questions answered</span>
+                        <span class="text-sm text-green-400">$1,890 earned</span>
+                        <span class="text-sm text-blue-400">4.8★ rating</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-[hsl(var(--card))] rounded-lg p-4 border border-gray-700">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-amber-600 to-amber-700 flex items-center justify-center">
+                      <span class="text-[hsl(var(--foreground))] font-bold">3</span>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2">
+                        <span class="text-base font-semibold text-[hsl(var(--foreground))]">RN Sarah Chen</span>
+                        <span class="text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded">NICU • 12yr exp</span>
+                      </div>
+                      <div class="flex items-center gap-4 mt-1">
+                        <span class="text-sm text-[hsl(var(--muted-foreground))]">389 questions answered</span>
+                        <span class="text-sm text-green-400">$1,556 earned</span>
+                        <span class="text-sm text-blue-400">4.9★ rating</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rising Stars -->
+            <div class="mb-6">
+              <h2 class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2">
+                <i data-lucide="trending-up" class="w-4 h-4 text-blue-500"></i>
+                Rising Student Stars
+              </h2>
+              <div class="space-y-2">
+                <div class="bg-[hsl(var(--card))] rounded-lg p-3 border border-gray-700 flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center">
+                    <span class="text-xs text-[hsl(var(--foreground))] font-semibold">SM</span>
+                  </div>
+                  <div class="flex-1">
+                    <span class="text-sm font-medium text-[hsl(var(--foreground))]">Sofia Martinez</span>
+                    <div class="flex items-center gap-3 mt-1">
+                      <span class="text-xs text-[hsl(var(--muted-foreground))]">2nd Year Student</span>
+                      <span class="text-xs text-green-400">89% NCLEX prep score</span>
+                    </div>
+                  </div>
+                  <div class="text-xs bg-[hsl(var(--primary))]/20 text-blue-400 px-2 py-1 rounded">Most Improved</div>
+                </div>
+
+                <div class="bg-[hsl(var(--card))] rounded-lg p-3 border border-gray-700 flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-green-500 flex items-center justify-center">
+                    <span class="text-xs text-[hsl(var(--foreground))] font-semibold">LT</span>
+                  </div>
+                  <div class="flex-1">
+                    <span class="text-sm font-medium text-[hsl(var(--foreground))]">Lisa Thompson</span>
+                    <div class="flex items-center gap-3 mt-1">
+                      <span class="text-xs text-[hsl(var(--muted-foreground))]">4th Year Student</span>
+                      <span class="text-xs text-green-400">Perfect clinical reviews</span>
+                    </div>
+                  </div>
+                  <div class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">Clinical Excellence</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Achievement Badges -->
+            <div>
+              <h2 class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2">
+                <i data-lucide="award" class="w-4 h-4 text-purple-500"></i>
+                Achievement Badges
+              </h2>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="bg-[hsl(var(--card))] rounded-lg p-3 border border-gray-700 text-center">
+                  <i data-lucide="heart-pulse" class="w-6 h-6 text-red-500 mx-auto mb-2"></i>
+                  <div class="text-xs font-medium text-[hsl(var(--foreground))]">Lifesaver</div>
+                  <div class="text-xs text-[hsl(var(--muted-foreground))]">Save 100+ lives</div>
+                </div>
+                <div class="bg-[hsl(var(--card))] rounded-lg p-3 border border-gray-700 text-center">
+                  <i data-lucide="graduation-cap" class="w-6 h-6 text-blue-500 mx-auto mb-2"></i>
+                  <div class="text-xs font-medium text-[hsl(var(--foreground))]">Mentor</div>
+                  <div class="text-xs text-[hsl(var(--muted-foreground))]">Guide 50+ students</div>
+                </div>
+                <div class="bg-[hsl(var(--card))] rounded-lg p-3 border border-gray-700 text-center">
+                  <i data-lucide="zap" class="w-6 h-6 text-yellow-500 mx-auto mb-2"></i>
+                  <div class="text-xs font-medium text-[hsl(var(--foreground))]">Quick Response</div>
+                  <div class="text-xs text-[hsl(var(--muted-foreground))]">Answer in &lt;5min</div>
+                </div>
+                <div class="bg-[hsl(var(--card))] rounded-lg p-3 border border-gray-700 text-center">
+                  <i data-lucide="shield-check" class="w-6 h-6 text-green-500 mx-auto mb-2"></i>
+                  <div class="text-xs font-medium text-[hsl(var(--foreground))]">Safety First</div>
+                  <div class="text-xs text-[hsl(var(--muted-foreground))]">Zero incidents</div>
                 </div>
               </div>
             </div>
@@ -998,70 +1100,51 @@
         document.getElementById('threads-section').classList.add('hidden');
         document.getElementById('chat-section').classList.add('hidden');
         document.getElementById('guest-section').classList.add('hidden');
-
-        // Hide sidebar content
-        document.getElementById('channels-content').classList.add('hidden');
-        document.getElementById('dm-content').classList.add('hidden');
+        document.getElementById('hall-section').classList.add('hidden');
+        document.getElementById('livestream-section').classList.add('hidden');
 
         // Reset all nav buttons
         const navButtons = document.querySelectorAll('nav button');
         navButtons.forEach((btn) => {
           btn.classList.remove('nav-active');
-          btn.classList.add('hover:bg-gray-900');
+          btn.classList.add('hover:bg-[hsl(var(--accent))]');
           const icon = btn.querySelector('i');
-          if (icon) icon.classList.remove('text-white');
-          if (icon) icon.classList.add('text-gray-400');
+          if (icon) icon.classList.remove('text-[hsl(var(--foreground))]');
+          if (icon) icon.classList.add('text-[hsl(var(--muted-foreground))]');
         });
 
         // Show selected section and update nav
         switch (section) {
           case 'threads':
-            document
-              .getElementById('threads-section')
-              .classList.remove('hidden');
+            document.getElementById('threads-section').classList.remove('hidden');
             document.getElementById('threads-section').classList.add('flex');
-            document
-              .getElementById('channels-content')
-              .classList.remove('hidden');
-            document.getElementById('sidebar-title').textContent =
-              'Threaded Lobby';
             break;
           case 'chat':
             document.getElementById('chat-section').classList.remove('hidden');
             document.getElementById('chat-section').classList.add('flex');
-            document.getElementById('dm-content').classList.remove('hidden');
-            document.getElementById('sidebar-title').textContent =
-              'Direct Messages';
             break;
           case 'livestream':
-            document
-              .getElementById('livestream-section')
-              .classList.remove('hidden');
+            document.getElementById('livestream-section').classList.remove('hidden');
             document.getElementById('livestream-section').classList.add('flex');
-            document
-              .getElementById('channels-content')
-              .classList.remove('hidden');
-            document.getElementById('sidebar-title').textContent =
-              'Live Sessions';
             break;
+          case 'guest':
             document.getElementById('guest-section').classList.remove('hidden');
             document.getElementById('guest-section').classList.add('flex');
-            document
-              .getElementById('channels-content')
-              .classList.remove('hidden');
-            document.getElementById('sidebar-title').textContent = 'Guest Room';
             break;
-          // Add other sections as needed
+          case 'hall':
+            document.getElementById('hall-section').classList.remove('hidden');
+            document.getElementById('hall-section').classList.add('flex');
+            break;
         }
 
         // Update active nav button
         const activeButton = event.currentTarget;
         activeButton.classList.add('nav-active');
-        activeButton.classList.remove('hover:bg-gray-900');
+        activeButton.classList.remove('hover:bg-[hsl(var(--accent))]');
         const activeIcon = activeButton.querySelector('i');
         if (activeIcon) {
-          activeIcon.classList.add('text-white');
-          activeIcon.classList.remove('text-gray-400');
+          activeIcon.classList.add('text-[hsl(var(--foreground))]');
+          activeIcon.classList.remove('text-[hsl(var(--muted-foreground))]');
         }
       }
 
