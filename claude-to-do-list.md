@@ -12,7 +12,7 @@
 
 - [x] Fix UI Problem 2: Add notification panel mockup
 - [x] Fix UI Problem 6: Reduce height, change placeholder text, remove + from chat
-- [ ] Fix UI Problem 7: Make thread input a popup triggered by + button
+- [x] Fix UI Problem 7: Make thread input a popup triggered by + button
 - [ ] Restructure CSS for better maintainability (global variables, naming conventions)
 
 ## Low Priority Tasks

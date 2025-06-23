@@ -658,40 +658,6 @@
             </div>
           </div>
 
-          <!-- New Thread Input -->
-          <div class="p-4 border-t border-[hsl(var(--border))]">
-            <div class="flex flex-col gap-3">
-              <textarea
-                placeholder="What's happening in nursing school?"
-                class="w-full bg-[hsl(var(--background))] text-lg placeholder-[hsl(var(--muted-foreground))] resize-none outline-none"
-                rows="1"
-              ></textarea>
-              <div class="flex items-center justify-between mt-3">
-                <div class="flex items-center gap-4">
-                  <button
-                    class="text-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]/80"
-                  >
-                    <i data-lucide="image" class="w-5 h-5"></i>
-                  </button>
-                  <button
-                    class="text-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]/80"
-                  >
-                    <i data-lucide="smile" class="w-5 h-5"></i>
-                  </button>
-                  <button
-                    class="text-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]/80"
-                  >
-                    <i data-lucide="calendar" class="w-5 h-5"></i>
-                  </button>
-                </div>
-                <button
-                  class="bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] px-4 py-1.5 rounded-full text-sm font-medium"
-                >
-                  Post
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Direct Messages Section -->
@@ -2778,6 +2744,78 @@
       </div>
     </div>
 
+    <!-- New Thread Modal -->
+    <div id="new-thread-modal" class="onboarding-overlay">
+      <div class="onboarding-card">
+        <div class="onboarding-header">
+          <h2 class="text-xl font-bold mb-2">Create New Thread 📝</h2>
+          <p class="text-sm opacity-90">Share your thoughts with the nursing community</p>
+        </div>
+        <div class="onboarding-content">
+          <form class="space-y-4">
+            <div>
+              <textarea
+                id="thread-content"
+                placeholder="What's happening in nursing school? Share your experiences, questions, or insights..."
+                class="w-full px-3 py-3 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-lg text-[hsl(var(--foreground))] placeholder-[hsl(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] resize-none min-h-32"
+                rows="4"
+              ></textarea>
+            </div>
+            
+            <!-- Thread Options -->
+            <div class="flex items-center gap-4 py-2">
+              <button
+                type="button"
+                class="flex items-center gap-2 text-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]/80 transition-colors"
+                title="Add image"
+              >
+                <i data-lucide="image" class="w-5 h-5"></i>
+                <span class="text-sm">Photo</span>
+              </button>
+              <button
+                type="button"
+                class="flex items-center gap-2 text-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]/80 transition-colors"
+                title="Add emoji"
+              >
+                <i data-lucide="smile" class="w-5 h-5"></i>
+                <span class="text-sm">Emoji</span>
+              </button>
+              <button
+                type="button"
+                class="flex items-center gap-2 text-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]/80 transition-colors"
+                title="Schedule post"
+              >
+                <i data-lucide="calendar" class="w-5 h-5"></i>
+                <span class="text-sm">Schedule</span>
+              </button>
+            </div>
+
+            <!-- Character count -->
+            <div class="text-right">
+              <span id="char-count" class="text-xs text-[hsl(var(--muted-foreground))]">0/280</span>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex gap-3 pt-2">
+              <button
+                type="button"
+                onclick="closeNewThreadModal()"
+                class="flex-1 px-4 py-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="flex-1 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] py-2 px-4 rounded-lg font-medium hover:bg-[hsl(var(--primary))]/90 transition-colors"
+              >
+                Post Thread
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <script>
       // Initialize Lucide icons
       lucide.createIcons();
@@ -2870,8 +2908,8 @@
 
       // Floating Action Button functionality
       function openNewPostModal() {
-        // Switch to threads section and focus on the textarea
-        showSection('threads');
+        // Open the new thread modal instead of switching sections
+        openNewThreadModal();
         window.location.hash = 'threads';
         
         // Focus on the new thread textarea after a brief delay
@@ -3129,6 +3167,62 @@
         // Show login modal when user clicks logout
         showLogin();
       }
+
+      // New Thread Modal Functions
+      function openNewThreadModal() {
+        const modal = document.getElementById('new-thread-modal');
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus on textarea after animation
+        setTimeout(() => {
+          const textarea = document.getElementById('thread-content');
+          if (textarea) {
+            textarea.focus();
+          }
+        }, 100);
+      }
+
+      function closeNewThreadModal() {
+        const modal = document.getElementById('new-thread-modal');
+        const textarea = document.getElementById('thread-content');
+        
+        modal.classList.remove('open');
+        document.body.style.overflow = 'auto';
+        
+        // Clear the textarea
+        if (textarea) {
+          textarea.value = '';
+          updateCharCount();
+        }
+      }
+
+      function updateCharCount() {
+        const textarea = document.getElementById('thread-content');
+        const charCount = document.getElementById('char-count');
+        
+        if (textarea && charCount) {
+          const count = textarea.value.length;
+          charCount.textContent = `${count}/280`;
+          
+          // Change color if approaching limit
+          if (count > 250) {
+            charCount.style.color = 'hsl(var(--destructive))';
+          } else if (count > 200) {
+            charCount.style.color = 'hsl(var(--chart-4))';
+          } else {
+            charCount.style.color = 'hsl(var(--muted-foreground))';
+          }
+        }
+      }
+
+      // Add character count listener
+      document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.getElementById('thread-content');
+        if (textarea) {
+          textarea.addEventListener('input', updateCharCount);
+        }
+      });
 
       // Auto-resize textarea
       document.addEventListener('input', function (e) {
