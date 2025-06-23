@@ -5,7 +5,7 @@
 - [x] Fix UI Problem 3: Make content scrollable, remove + button from non-thread pages
 - [x] Design Authentication pages (login and signup)
 - [x] Add horizontal scrollable chat rooms on Chat message page
-- [ ] Fix UI Problem 8: Implement dynamic navigation (bottom/top bar switching)
+- [x] Fix UI Problem 8: Implement dynamic navigation (bottom/top bar switching)
 - [x] Design Settings page
 
 ## Medium Priority Tasks

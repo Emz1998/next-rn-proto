@@ -321,6 +321,96 @@
       .progress-dot.completed {
         background: hsl(var(--primary));
       }
+
+      /* Dynamic Bottom Navigation */
+      .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background: hsl(var(--background))/95;
+        backdrop-filter: blur(10px);
+        border-top: 1px solid hsl(var(--border));
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 8px 16px;
+        z-index: 1000;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+      }
+
+      .bottom-nav.visible {
+        transform: translateY(0);
+      }
+
+      .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 12px;
+        border-radius: 12px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        min-width: 60px;
+      }
+
+      .bottom-nav-item:hover {
+        background: hsl(var(--accent))/50;
+      }
+
+      .bottom-nav-item.active {
+        background: hsl(var(--primary))/20;
+        color: hsl(var(--primary));
+      }
+
+      .bottom-nav-item .icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .bottom-nav-item .label {
+        font-size: 10px;
+        font-weight: 500;
+        text-align: center;
+      }
+
+      /* Mobile responsiveness and content spacing */
+      .main-content {
+        padding-bottom: 100px; /* Space for bottom nav */
+      }
+
+      /* Hide sidebar on mobile when bottom nav is active */
+      @media (max-width: 768px) {
+        .sidebar-hidden {
+          transform: translateX(-100%);
+        }
+        
+        .content-full {
+          margin-left: 0;
+        }
+
+        /* Ensure bottom nav is always visible on mobile */
+        .bottom-nav {
+          display: flex;
+        }
+
+        /* Hide FAB on mobile when bottom nav is present */
+        .fab {
+          display: none;
+        }
+      }
+
+      /* Scroll behavior for dynamic navigation */
+      .scroll-up {
+        transform: translateY(0);
+      }
+
+      .scroll-down {
+        transform: translateY(100%);
+      }
     </style>
   </head>
   <body
@@ -432,7 +522,7 @@
       </nav>
 
       <!-- Main Content Area -->
-      <div class="flex-1 flex flex-col bg-[hsl(var(--background))] min-w-0 overflow-hidden">
+      <div class="flex-1 flex flex-col bg-[hsl(var(--background))] min-w-0 overflow-hidden main-content">
         <!-- Threads Section (Home) -->
         <div id="threads-section" class="flex-1 flex flex-col overflow-hidden">
           <!-- Header -->
@@ -2156,6 +2246,30 @@
       </div>
     </div>
 
+    <!-- Dynamic Bottom Navigation -->
+    <nav id="bottom-nav" class="bottom-nav">
+      <a href="#threads" class="bottom-nav-item" data-section="threads" onclick="handleBottomNavClick('threads')">
+        <i data-lucide="home" class="icon text-[hsl(var(--foreground))]"></i>
+        <span class="label text-[hsl(var(--foreground))]">Home</span>
+      </a>
+      <a href="#chat" class="bottom-nav-item" data-section="chat" onclick="handleBottomNavClick('chat')">
+        <i data-lucide="message-circle" class="icon text-[hsl(var(--foreground))]"></i>
+        <span class="label text-[hsl(var(--foreground))]">Chat</span>
+      </a>
+      <button class="bottom-nav-item" onclick="openNewPostModal()" title="Create new post">
+        <i data-lucide="plus" class="icon text-[hsl(var(--primary))]"></i>
+        <span class="label text-[hsl(var(--primary))]">Post</span>
+      </button>
+      <a href="#guest" class="bottom-nav-item" data-section="guest" onclick="handleBottomNavClick('guest')">
+        <i data-lucide="door-closed" class="icon text-[hsl(var(--foreground))]"></i>
+        <span class="label text-[hsl(var(--foreground))]">Study</span>
+      </a>
+      <a href="#settings" class="bottom-nav-item" data-section="settings" onclick="handleBottomNavClick('settings')">
+        <i data-lucide="settings" class="icon text-[hsl(var(--foreground))]"></i>
+        <span class="label text-[hsl(var(--foreground))]">Settings</span>
+      </a>
+    </nav>
+
     <!-- Floating Action Button -->
     <button id="fab-button" class="fab" onclick="openNewPostModal()" title="Create new post">
       <i data-lucide="plus" class="w-6 h-6 text-[hsl(var(--background))]"></i>
@@ -2843,6 +2957,11 @@
           fabButton.style.display = 'none';
         }
 
+        // Update bottom navigation active state
+        if (typeof updateBottomNavActive === 'function') {
+          updateBottomNavActive(section);
+        }
+
         // Show selected section and set active nav
         switch (section) {
           case 'threads':
@@ -3222,6 +3341,82 @@
         if (textarea) {
           textarea.addEventListener('input', updateCharCount);
         }
+      });
+
+      // Dynamic Navigation Functions
+      let lastScrollTop = 0;
+      let scrollTimeout;
+
+      function handleBottomNavClick(section) {
+        showSection(section);
+        updateBottomNavActive(section);
+      }
+
+      function updateBottomNavActive(activeSection) {
+        // Remove active class from all bottom nav items
+        document.querySelectorAll('.bottom-nav-item').forEach(item => {
+          item.classList.remove('active');
+        });
+
+        // Add active class to current section
+        const activeItem = document.querySelector(`.bottom-nav-item[data-section="${activeSection}"]`);
+        if (activeItem) {
+          activeItem.classList.add('active');
+        }
+      }
+
+      function handleScroll() {
+        const bottomNav = document.getElementById('bottom-nav');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Clear existing timeout
+        clearTimeout(scrollTimeout);
+        
+        // Show bottom nav when scrolling up, hide when scrolling down
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+          // Scrolling down - hide bottom nav
+          bottomNav.classList.remove('visible');
+          bottomNav.classList.add('scroll-down');
+          bottomNav.classList.remove('scroll-up');
+        } else if (scrollTop < lastScrollTop || scrollTop <= 100) {
+          // Scrolling up or near top - show bottom nav
+          bottomNav.classList.add('visible');
+          bottomNav.classList.add('scroll-up');
+          bottomNav.classList.remove('scroll-down');
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        
+        // Auto-hide after 3 seconds of no scrolling
+        scrollTimeout = setTimeout(() => {
+          if (scrollTop > 100) {
+            bottomNav.classList.remove('visible');
+          }
+        }, 3000);
+      }
+
+      function initDynamicNavigation() {
+        const bottomNav = document.getElementById('bottom-nav');
+        
+        // Show bottom nav initially
+        bottomNav.classList.add('visible');
+        
+        // Add scroll listener for dynamic behavior
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        // Update active state based on current section
+        const currentHash = window.location.hash.slice(1) || 'threads';
+        updateBottomNavActive(currentHash);
+        
+        // Auto-hide after 5 seconds on initial load
+        setTimeout(() => {
+          bottomNav.classList.remove('visible');
+        }, 5000);
+      }
+
+      // Initialize dynamic navigation on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        initDynamicNavigation();
       });
 
       // Auto-resize textarea
