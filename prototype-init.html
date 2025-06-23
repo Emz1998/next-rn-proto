@@ -2450,6 +2450,7 @@
         document.getElementById('guest-section').classList.add('hidden');
         document.getElementById('hall-section').classList.add('hidden');
         document.getElementById('livestream-section').classList.add('hidden');
+        document.getElementById('settings-section').classList.add('hidden');
 
         // Remove active class from all nav links
         document.querySelectorAll('nav a').forEach((link) => {
@@ -2495,6 +2496,13 @@
             document.getElementById('hall-section').classList.add('flex');
             document
               .querySelector('nav a[data-section="hall"]')
+              .classList.add('active');
+            break;
+          case 'settings':
+            document.getElementById('settings-section').classList.remove('hidden');
+            document.getElementById('settings-section').classList.add('flex');
+            document
+              .querySelector('nav a[data-section="settings"]')
               .classList.add('active');
             break;
         }
