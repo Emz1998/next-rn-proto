@@ -96,6 +96,148 @@
       .fab:active {
         transform: scale(0.95);
       }
+
+      /* Notification Center */
+      .notification-panel {
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 400px;
+        height: 100vh;
+        background: hsl(var(--background));
+        border-left: 1px solid hsl(var(--border));
+        z-index: 2000;
+        transition: right 0.3s ease;
+        overflow-y: auto;
+      }
+      
+      .notification-panel.open {
+        right: 0;
+      }
+      
+      .notification-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .notification-overlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .notification-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        width: 16px;
+        height: 16px;
+        background: #ef4444;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: bold;
+        color: white;
+      }
+
+      /* Global Search Modal */
+      .search-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 3000;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 80px 20px 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .search-modal.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .search-container {
+        width: 100%;
+        max-width: 600px;
+        background: hsl(var(--background));
+        border-radius: 12px;
+        border: 1px solid hsl(var(--border));
+        overflow: hidden;
+        transform: translateY(-20px);
+        transition: transform 0.3s ease;
+      }
+      
+      .search-modal.open .search-container {
+        transform: translateY(0);
+      }
+      
+      .search-input-container {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        border-bottom: 1px solid hsl(var(--border));
+      }
+      
+      .search-input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: hsl(var(--foreground));
+        font-size: 18px;
+        margin-left: 12px;
+      }
+      
+      .search-input::placeholder {
+        color: hsl(var(--muted-foreground));
+      }
+      
+      .search-results {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+      
+      .search-section {
+        padding: 12px 16px;
+        border-bottom: 1px solid hsl(var(--border));
+      }
+      
+      .search-section-title {
+        font-size: 12px;
+        font-weight: 600;
+        color: hsl(var(--muted-foreground));
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+      }
+      
+      .search-result-item {
+        padding: 8px 0;
+        cursor: pointer;
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin: 2px 0;
+      }
+      
+      .search-result-item:hover {
+        background: hsl(var(--accent));
+      }
     </style>
   </head>
   <body
@@ -214,6 +356,7 @@
             <div class="ml-auto flex items-center gap-3">
               <button
                 class="text-[hsl(var(--foreground))] hover:text-[hsl(var(--foreground))]"
+                onclick="openSearch()"
               >
                 <i data-lucide="search" class="w-5 h-5"></i>
               </button>
@@ -221,6 +364,14 @@
                 class="text-[hsl(var(--foreground))] hover:text-[hsl(var(--foreground))]"
               >
                 <i data-lucide="filter" class="w-5 h-5"></i>
+              </button>
+              <button
+                id="notification-btn"
+                class="relative text-[hsl(var(--foreground))] hover:text-[hsl(var(--foreground))]"
+                onclick="toggleNotifications()"
+              >
+                <i data-lucide="bell" class="w-5 h-5"></i>
+                <span id="notification-badge" class="notification-badge">3</span>
               </button>
             </div>
           </header>
@@ -1572,6 +1723,224 @@
       <i data-lucide="plus" class="w-6 h-6 text-[hsl(var(--background))]"></i>
     </button>
 
+    <!-- Notification Overlay -->
+    <div id="notification-overlay" class="notification-overlay" onclick="closeNotifications()"></div>
+
+    <!-- Notification Panel -->
+    <div id="notification-panel" class="notification-panel">
+      <!-- Notification Header -->
+      <div class="p-4 border-b border-[hsl(var(--border))] flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-[hsl(var(--foreground))]">Notifications</h2>
+        <button onclick="closeNotifications()" class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Notification Tabs -->
+      <div class="p-4 border-b border-[hsl(var(--border))]">
+        <div class="flex gap-2">
+          <button class="px-3 py-1.5 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] rounded-lg text-sm font-medium">
+            All (3)
+          </button>
+          <button class="px-3 py-1.5 bg-[hsl(var(--muted))] text-[hsl(var(--foreground))] rounded-lg text-sm font-medium">
+            Replies
+          </button>
+          <button class="px-3 py-1.5 bg-[hsl(var(--muted))] text-[hsl(var(--foreground))] rounded-lg text-sm font-medium">
+            DMs
+          </button>
+        </div>
+      </div>
+
+      <!-- Notifications List -->
+      <div class="flex-1 overflow-y-auto">
+        <!-- New Reply Notification -->
+        <div class="p-4 border-b border-[hsl(var(--border))] hover:bg-[hsl(var(--card))]/50 cursor-pointer">
+          <div class="flex gap-3">
+            <div class="w-8 h-8 rounded-full bg-[hsl(var(--primary))] flex items-center justify-center flex-shrink-0">
+              <span class="text-xs text-[hsl(var(--background))] font-semibold">E</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-sm font-medium text-[hsl(var(--foreground))]">RN Emma</span>
+                <span class="text-xs text-[hsl(var(--muted-foreground))]">replied to your post</span>
+                <div class="w-2 h-2 bg-[hsl(var(--primary))] rounded-full ml-auto"></div>
+              </div>
+              <p class="text-sm text-[hsl(var(--muted-foreground))] mb-1">
+                "Great question! For pediatric dosages, always remember to..."
+              </p>
+              <span class="text-xs text-[hsl(var(--muted-foreground))]">2 minutes ago</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DM Notification -->
+        <div class="p-4 border-b border-[hsl(var(--border))] hover:bg-[hsl(var(--card))]/50 cursor-pointer">
+          <div class="flex gap-3">
+            <div class="w-8 h-8 rounded-full bg-[hsl(var(--muted))] flex items-center justify-center flex-shrink-0">
+              <span class="text-xs text-[hsl(var(--foreground))] font-semibold">M</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-sm font-medium text-[hsl(var(--foreground))]">RN Marcus</span>
+                <span class="text-xs text-[hsl(var(--muted-foreground))]">answered your paid question</span>
+                <div class="w-2 h-2 bg-[hsl(var(--primary))] rounded-full ml-auto"></div>
+              </div>
+              <p class="text-sm text-[hsl(var(--muted-foreground))] mb-1">
+                "The correct drip rate calculation is..."
+              </p>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-[hsl(var(--muted-foreground))]">15 minutes ago</span>
+                <span class="text-xs bg-[hsl(var(--primary))]/20 text-[hsl(var(--primary))] px-1.5 rounded">$2 Paid</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Livestream Notification -->
+        <div class="p-4 border-b border-[hsl(var(--border))] hover:bg-[hsl(var(--card))]/50 cursor-pointer">
+          <div class="flex gap-3">
+            <div class="w-8 h-8 rounded-full bg-[hsl(var(--primary))] flex items-center justify-center flex-shrink-0">
+              <i data-lucide="radio" class="w-4 h-4 text-[hsl(var(--background))]"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-sm font-medium text-[hsl(var(--foreground))]">RN Sarah</span>
+                <span class="text-xs text-[hsl(var(--muted-foreground))]">started a livestream</span>
+                <div class="w-2 h-2 bg-[hsl(var(--primary))] rounded-full ml-auto"></div>
+              </div>
+              <p class="text-sm text-[hsl(var(--muted-foreground))] mb-1">
+                "NCLEX Review: Cardiac Medications - Join now!"
+              </p>
+              <div class="flex items-center gap-2">
+                <span class="text-xs text-[hsl(var(--muted-foreground))]">1 hour ago</span>
+                <span class="text-xs bg-red-500/20 text-red-400 px-1.5 rounded flex items-center gap-1">
+                  <div class="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></div>
+                  LIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Older notifications -->
+        <div class="p-4 text-center">
+          <span class="text-xs text-[hsl(var(--muted-foreground))]">You're all caught up! 🎉</span>
+        </div>
+      </div>
+
+      <!-- Notification Actions -->
+      <div class="p-4 border-t border-[hsl(var(--border))]">
+        <div class="flex gap-2">
+          <button class="flex-1 bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-3 py-2 rounded-lg text-sm font-medium">
+            Mark All Read
+          </button>
+          <button class="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/80 text-[hsl(var(--primary-foreground))] px-3 py-2 rounded-lg text-sm font-medium">
+            Settings
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global Search Modal -->
+    <div id="search-modal" class="search-modal" onclick="closeSearch()">
+      <div class="search-container" onclick="event.stopPropagation()">
+        <!-- Search Input -->
+        <div class="search-input-container">
+          <i data-lucide="search" class="w-5 h-5 text-[hsl(var(--muted-foreground))]"></i>
+          <input 
+            type="text" 
+            id="search-input"
+            class="search-input" 
+            placeholder="Search threads, users, and topics..."
+            autocomplete="off"
+          >
+          <button onclick="closeSearch()" class="text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] ml-2">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Search Results -->
+        <div id="search-results" class="search-results">
+          <!-- Recent Searches -->
+          <div class="search-section">
+            <div class="search-section-title">Recent Searches</div>
+            <div class="search-result-item" onclick="performSearch('NCLEX dosage')">
+              <div class="flex items-center gap-3">
+                <i data-lucide="clock" class="w-4 h-4 text-[hsl(var(--muted-foreground))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">NCLEX dosage calculations</span>
+              </div>
+            </div>
+            <div class="search-result-item" onclick="performSearch('IV therapy')">
+              <div class="flex items-center gap-3">
+                <i data-lucide="clock" class="w-4 h-4 text-[hsl(var(--muted-foreground))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">IV therapy tips</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Popular Topics -->
+          <div class="search-section">
+            <div class="search-section-title">Popular Topics</div>
+            <div class="search-result-item" onclick="performSearch('pediatric nursing')">
+              <div class="flex items-center gap-3">
+                <i data-lucide="trending-up" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">Pediatric Nursing</span>
+                <span class="text-xs text-[hsl(var(--muted-foreground))] ml-auto">247 discussions</span>
+              </div>
+            </div>
+            <div class="search-result-item" onclick="performSearch('medication safety')">
+              <div class="flex items-center gap-3">
+                <i data-lucide="trending-up" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">Medication Safety</span>
+                <span class="text-xs text-[hsl(var(--muted-foreground))] ml-auto">189 discussions</span>
+              </div>
+            </div>
+            <div class="search-result-item" onclick="performSearch('clinical skills')">
+              <div class="flex items-center gap-3">
+                <i data-lucide="trending-up" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">Clinical Skills</span>
+                <span class="text-xs text-[hsl(var(--muted-foreground))] ml-auto">156 discussions</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top RNs -->
+          <div class="search-section">
+            <div class="search-section-title">Top Mentors</div>
+            <div class="search-result-item" onclick="viewProfile('RN Emma')">
+              <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded-full bg-[hsl(var(--primary))] flex items-center justify-center">
+                  <span class="text-xs text-[hsl(var(--background))] font-semibold">E</span>
+                </div>
+                <div class="flex-1">
+                  <div class="text-sm font-medium text-[hsl(var(--foreground))]">RN Emma Rodriguez</div>
+                  <div class="text-xs text-[hsl(var(--muted-foreground))]">ICU • 8+ years • 4.9★</div>
+                </div>
+              </div>
+            </div>
+            <div class="search-result-item" onclick="viewProfile('RN Marcus')">
+              <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded-full bg-[hsl(var(--muted))] flex items-center justify-center">
+                  <span class="text-xs text-[hsl(var(--foreground))] font-semibold">M</span>
+                </div>
+                <div class="flex-1">
+                  <div class="text-sm font-medium text-[hsl(var(--foreground))]">RN Marcus Johnson</div>
+                  <div class="text-xs text-[hsl(var(--muted-foreground))]">ER • 5+ years • 4.8★</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search Tips -->
+        <div class="p-4 bg-[hsl(var(--muted))]/30 text-center">
+          <span class="text-xs text-[hsl(var(--muted-foreground))]">
+            Press <kbd class="px-1.5 py-0.5 bg-[hsl(var(--accent))] rounded text-xs">Ctrl+K</kbd> to search from anywhere
+          </span>
+        </div>
+      </div>
+    </div>
+
     <script>
       // Initialize Lucide icons
       lucide.createIcons();
@@ -1721,6 +2090,84 @@
         
         updateTimerDisplay();
       });
+
+      // Notification Center functionality
+      function toggleNotifications() {
+        const panel = document.getElementById('notification-panel');
+        const overlay = document.getElementById('notification-overlay');
+        
+        if (panel.classList.contains('open')) {
+          closeNotifications();
+        } else {
+          panel.classList.add('open');
+          overlay.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+
+      function closeNotifications() {
+        const panel = document.getElementById('notification-panel');
+        const overlay = document.getElementById('notification-overlay');
+        
+        panel.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.style.overflow = 'auto';
+      }
+
+      // Close notifications on escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeNotifications();
+          closeSearch();
+        }
+        
+        // Global search shortcut (Ctrl+K)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          openSearch();
+        }
+      });
+
+      // Global Search functionality
+      function openSearch() {
+        const modal = document.getElementById('search-modal');
+        const input = document.getElementById('search-input');
+        
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus input after animation
+        setTimeout(() => {
+          input.focus();
+        }, 100);
+      }
+
+      function closeSearch() {
+        const modal = document.getElementById('search-modal');
+        const input = document.getElementById('search-input');
+        
+        modal.classList.remove('open');
+        document.body.style.overflow = 'auto';
+        input.value = '';
+      }
+
+      function performSearch(query) {
+        // Simulate search functionality
+        document.getElementById('search-input').value = query;
+        
+        // Close search and show results in threads section
+        setTimeout(() => {
+          closeSearch();
+          showSection('threads');
+          window.location.hash = 'threads';
+        }, 500);
+      }
+
+      function viewProfile(name) {
+        // Simulate profile view
+        closeSearch();
+        alert(`Viewing profile: ${name}`);
+      }
 
       // Auto-resize textarea
       document.addEventListener('input', function (e) {

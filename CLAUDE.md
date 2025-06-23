@@ -40,6 +40,14 @@ The prototype is a single HTML file (`prototype-init.html`) with:
 
 ## Development Guidelines
 
+### Git Workflow Requirements
+**CRITICAL**: After completing ANY task or feature implementation:
+1. **ALWAYS commit changes to git** with descriptive commit messages
+2. **ALWAYS update development-log.md** with detailed documentation of changes
+3. **Include commit hash and file changes** in the development log entry
+4. **Document technical decisions and design rationale** for future reference
+5. **Use conventional commit format** for consistency and clarity
+
 ### UI/UX Principles
 - **Mobile-first responsive design**: Portrait primary, landscape optional for livestream
 - **Dark theme**: Professional medical aesthetic with blue accent colors
