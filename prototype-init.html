@@ -418,16 +418,16 @@
               class="w-5 h-5 text-[hsl(var(--foreground))] [.active>&]:text-[hsl(var(--background))]"
             ></i>
           </a>
-          <a
-            href="#logout"
+          <button
+            onclick="handleLogout()"
             class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[hsl(var(--accent))] active:bg-[hsl(var(--primary))] [&.active]:bg-[hsl(var(--primary))]"
-            data-section="logout"
+            title="Sign out"
           >
             <i
               data-lucide="log-out"
               class="w-5 h-5 text-[hsl(var(--foreground))] [.active>&]:text-[hsl(var(--background))]"
             ></i>
-          </a>
+          </button>
         </div>
       </nav>
 
@@ -696,6 +696,167 @@
 
         <!-- Direct Messages Section -->
         <div id="chat-section" class="flex-1 flex-col hidden overflow-hidden">
+          <!-- Chat Rooms Header -->
+          <header
+            class="h-14 border-b border-[hsl(var(--border))] flex items-center px-4"
+          >
+            <h1 class="text-base font-semibold text-[hsl(var(--primary))]">
+              Messages
+            </h1>
+            <div class="ml-auto flex items-center gap-3">
+              <button
+                class="text-[hsl(var(--foreground))] hover:text-[hsl(var(--foreground))]"
+                title="Search conversations"
+              >
+                <i data-lucide="search" class="w-5 h-5"></i>
+              </button>
+              <button
+                class="text-[hsl(var(--foreground))] hover:text-[hsl(var(--foreground))]"
+                title="New message"
+              >
+                <i data-lucide="edit" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </header>
+
+          <!-- Chat Rooms List -->
+          <div class="overflow-y-auto overflow-x-hidden flex-1">
+            <!-- Active Conversations -->
+            <div class="p-4">
+              <h2 class="text-xs font-semibold text-[hsl(var(--muted-foreground))] mb-3 uppercase tracking-wide">
+                Active Conversations
+              </h2>
+              
+              <!-- Chat Room 1 - RN Emma (Active) -->
+              <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-[hsl(var(--accent))]/50 cursor-pointer bg-[hsl(var(--accent))]/30 border border-[hsl(var(--border))] mb-2">
+                <div class="relative">
+                  <div class="w-12 h-12 rounded-full bg-[hsl(var(--primary))] flex items-center justify-center">
+                    <span class="text-sm text-[hsl(var(--background))] font-semibold">E</span>
+                  </div>
+                  <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-[hsl(var(--background))] rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold text-[hsl(var(--foreground))]">RN Emma Rodriguez</h3>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">2:45 PM</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs bg-[hsl(var(--primary))]/20 text-[hsl(var(--primary))] px-2 py-1 rounded">ICU</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">Available • $2/question</span>
+                  </div>
+                  <p class="text-xs text-[hsl(var(--muted-foreground))] truncate mt-1">
+                    You're welcome! Remember to always double-check...
+                  </p>
+                </div>
+                <div class="flex flex-col items-end gap-1">
+                  <div class="w-2 h-2 bg-[hsl(var(--primary))] rounded-full"></div>
+                </div>
+              </div>
+
+              <!-- Chat Room 2 - RN Marcus -->
+              <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-[hsl(var(--accent))]/50 cursor-pointer mb-2">
+                <div class="relative">
+                  <div class="w-12 h-12 rounded-full bg-[hsl(var(--muted))] flex items-center justify-center">
+                    <span class="text-sm text-[hsl(var(--foreground))] font-semibold">M</span>
+                  </div>
+                  <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-[hsl(var(--background))] rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold text-[hsl(var(--foreground))]">RN Marcus Johnson</h3>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">1:20 PM</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs bg-[hsl(var(--secondary))]/20 text-[hsl(var(--secondary-foreground))] px-2 py-1 rounded">ER</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">Available • $2/question</span>
+                  </div>
+                  <p class="text-xs text-[hsl(var(--muted-foreground))] truncate mt-1">
+                    Great question about trauma protocols. In our ER...
+                  </p>
+                </div>
+                <div class="flex flex-col items-end gap-1">
+                  <div class="w-2 h-2 bg-[hsl(var(--primary))] rounded-full"></div>
+                </div>
+              </div>
+
+              <!-- Chat Room 3 - RN Sarah -->
+              <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-[hsl(var(--accent))]/50 cursor-pointer mb-2">
+                <div class="relative">
+                  <div class="w-12 h-12 rounded-full bg-[hsl(var(--chart-3))]/20 flex items-center justify-center">
+                    <span class="text-sm text-[hsl(var(--foreground))] font-semibold">S</span>
+                  </div>
+                  <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-yellow-500 border-2 border-[hsl(var(--background))] rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold text-[hsl(var(--foreground))]">RN Sarah Chen</h3>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">Yesterday</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs bg-[hsl(var(--chart-1))]/20 text-[hsl(var(--chart-1))] px-2 py-1 rounded">PICU</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">Away • $2/question</span>
+                  </div>
+                  <p class="text-xs text-[hsl(var(--muted-foreground))] truncate mt-1">
+                    Thanks for the pediatric dosage help! That really...
+                  </p>
+                </div>
+              </div>
+
+              <!-- Chat Room 4 - Study Group -->
+              <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-[hsl(var(--accent))]/50 cursor-pointer mb-2">
+                <div class="relative">
+                  <div class="w-12 h-12 rounded-full bg-[hsl(var(--chart-2))]/20 flex items-center justify-center">
+                    <i data-lucide="users" class="w-6 h-6 text-[hsl(var(--chart-2))]"></i>
+                  </div>
+                  <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-[hsl(var(--background))] rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold text-[hsl(var(--foreground))]">NCLEX Study Group</h3>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">11:30 AM</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs bg-[hsl(var(--chart-2))]/20 text-[hsl(var(--chart-2))] px-2 py-1 rounded">Study Group</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">8 members</span>
+                  </div>
+                  <p class="text-xs text-[hsl(var(--muted-foreground))] truncate mt-1">
+                    Jessica: Anyone know the answer to question 47?
+                  </p>
+                </div>
+                <div class="flex flex-col items-end gap-1">
+                  <div class="w-5 h-4 bg-[hsl(var(--primary))] rounded-full flex items-center justify-center">
+                    <span class="text-xs text-[hsl(var(--background))] font-bold">3</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chat Room 5 - RN David -->
+              <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-[hsl(var(--accent))]/50 cursor-pointer mb-2">
+                <div class="relative">
+                  <div class="w-12 h-12 rounded-full bg-[hsl(var(--chart-4))]/20 flex items-center justify-center">
+                    <span class="text-sm text-[hsl(var(--foreground))] font-semibold">D</span>
+                  </div>
+                  <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-gray-400 border-2 border-[hsl(var(--background))] rounded-full"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-semibold text-[hsl(var(--foreground))]">RN David Kim</h3>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">2 days ago</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs bg-[hsl(var(--chart-4))]/20 text-[hsl(var(--chart-4))] px-2 py-1 rounded">OR</span>
+                    <span class="text-xs text-[hsl(var(--muted-foreground))]">Offline • $2/question</span>
+                  </div>
+                  <p class="text-xs text-[hsl(var(--muted-foreground))] truncate mt-1">
+                    The surgical prep protocols you asked about...
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Individual Chat View (Hidden by default, shown when chat is selected) -->
+          <div id="individual-chat" class="hidden flex-1 flex flex-col overflow-hidden">
           <!-- Chat Header -->
           <header
             class="h-14 border-b border-[hsl(var(--border))] flex items-center px-4"
@@ -831,6 +992,7 @@
             >
               $2 per question • Instant expert answers
             </p>
+          </div>
           </div>
         </div>
 
@@ -1995,13 +2157,46 @@
                 </div>
               </div>
             </div>
+
+            <!-- Authentication Section -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="key" class="w-4 h-4"></i>
+                Account Access
+              </h2>
+              <div
+                class="bg-[hsl(var(--card))] rounded-lg p-4 border border-[hsl(var(--border))] space-y-3"
+              >
+                <p class="text-sm text-[hsl(var(--muted-foreground))]">
+                  Manage your account access and authentication settings.
+                </p>
+                <div class="flex gap-3">
+                  <button
+                    onclick="showLogin()"
+                    class="flex-1 bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] py-2 px-4 rounded-lg font-medium hover:bg-[hsl(var(--primary))]/90 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <i data-lucide="log-in" class="w-4 h-4"></i>
+                    Sign In
+                  </button>
+                  <button
+                    onclick="showSignup()"
+                    class="flex-1 bg-[hsl(var(--secondary))] text-[hsl(var(--secondary-foreground))] py-2 px-4 rounded-lg font-medium hover:bg-[hsl(var(--secondary))]/90 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <i data-lucide="user-plus" class="w-4 h-4"></i>
+                    Sign Up
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Floating Action Button -->
-    <button class="fab" onclick="openNewPostModal()" title="Create new post">
+    <button id="fab-button" class="fab" onclick="openNewPostModal()" title="Create new post">
       <i data-lucide="plus" class="w-6 h-6 text-[hsl(var(--background))]"></i>
     </button>
 
@@ -2438,6 +2633,156 @@
       </div>
     </div>
 
+    <!-- Authentication Modals -->
+    <!-- Login Modal -->
+    <div id="login-modal" class="onboarding-overlay">
+      <div class="onboarding-card">
+        <div class="onboarding-header">
+          <h2 class="text-xl font-bold mb-2">Welcome Back! 👩‍⚕️</h2>
+          <p class="text-sm opacity-90">Sign in to continue your nursing journey</p>
+        </div>
+        <div class="onboarding-content">
+          <form class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-[hsl(var(--foreground))] mb-2">Email or Username</label>
+              <input 
+                type="text" 
+                class="w-full px-3 py-2 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-lg text-[hsl(var(--foreground))] placeholder-[hsl(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))]"
+                placeholder="Enter your email or username"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[hsl(var(--foreground))] mb-2">Password</label>
+              <input 
+                type="password" 
+                class="w-full px-3 py-2 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-lg text-[hsl(var(--foreground))] placeholder-[hsl(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))]"
+                placeholder="Enter your password"
+              />
+            </div>
+            <div class="flex items-center justify-between">
+              <label class="flex items-center">
+                <input type="checkbox" class="rounded border-[hsl(var(--border))] text-[hsl(var(--primary))]">
+                <span class="ml-2 text-sm text-[hsl(var(--muted-foreground))]">Remember me</span>
+              </label>
+              <button type="button" class="text-sm text-[hsl(var(--primary))] hover:underline">
+                Forgot password?
+              </button>
+            </div>
+            <button 
+              type="submit"
+              class="w-full bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] py-2 px-4 rounded-lg font-medium hover:bg-[hsl(var(--primary))]/90 transition-colors"
+            >
+              Sign In
+            </button>
+          </form>
+          <div class="mt-6 text-center">
+            <p class="text-sm text-[hsl(var(--muted-foreground))]">
+              Don't have an account? 
+              <button onclick="showSignup()" class="text-[hsl(var(--primary))] hover:underline font-medium">
+                Sign up here
+              </button>
+            </p>
+          </div>
+          <div class="mt-4 flex justify-end gap-3">
+            <button onclick="closeLogin()" class="px-4 py-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="onboarding-overlay">
+      <div class="onboarding-card">
+        <div class="onboarding-header">
+          <h2 class="text-xl font-bold mb-2">Join NextRN! 🚀</h2>
+          <p class="text-sm opacity-90">Create your account and start connecting</p>
+        </div>
+        <div class="onboarding-content">
+          <form class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-[hsl(var(--foreground))] mb-2">First Name</label>
+                <input 
+                  type="text" 
+                  class="w-full px-3 py-2 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-lg text-[hsl(var(--foreground))] placeholder-[hsl(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))]"
+                  placeholder="First name"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-[hsl(var(--foreground))] mb-2">Last Name</label>
+                <input 
+                  type="text" 
+                  class="w-full px-3 py-2 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-lg text-[hsl(var(--foreground))] placeholder-[hsl(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))]"
+                  placeholder="Last name"
+                />
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[hsl(var(--foreground))] mb-2">Email</label>
+              <input 
+                type="email" 
+                class="w-full px-3 py-2 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-lg text-[hsl(var(--foreground))] placeholder-[hsl(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))]"
+                placeholder="your.email@example.com"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[hsl(var(--foreground))] mb-2">Nursing Status</label>
+              <select class="w-full px-3 py-2 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-lg text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))]">
+                <option>Nursing Student</option>
+                <option>New Graduate Nurse</option>
+                <option>Registered Nurse (RN)</option>
+                <option>Advanced Practice Nurse</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[hsl(var(--foreground))] mb-2">Password</label>
+              <input 
+                type="password" 
+                class="w-full px-3 py-2 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-lg text-[hsl(var(--foreground))] placeholder-[hsl(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))]"
+                placeholder="Create a strong password"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-[hsl(var(--foreground))] mb-2">Confirm Password</label>
+              <input 
+                type="password" 
+                class="w-full px-3 py-2 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-lg text-[hsl(var(--foreground))] placeholder-[hsl(var(--muted-foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))]"
+                placeholder="Confirm your password"
+              />
+            </div>
+            <div class="flex items-start">
+              <input type="checkbox" class="mt-1 rounded border-[hsl(var(--border))] text-[hsl(var(--primary))]">
+              <span class="ml-2 text-sm text-[hsl(var(--muted-foreground))]">
+                I agree to the <button type="button" class="text-[hsl(var(--primary))] hover:underline">Terms of Service</button> 
+                and <button type="button" class="text-[hsl(var(--primary))] hover:underline">Privacy Policy</button>
+              </span>
+            </div>
+            <button 
+              type="submit"
+              class="w-full bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] py-2 px-4 rounded-lg font-medium hover:bg-[hsl(var(--primary))]/90 transition-colors"
+            >
+              Create Account
+            </button>
+          </form>
+          <div class="mt-6 text-center">
+            <p class="text-sm text-[hsl(var(--muted-foreground))]">
+              Already have an account? 
+              <button onclick="showLogin()" class="text-[hsl(var(--primary))] hover:underline font-medium">
+                Sign in here
+              </button>
+            </p>
+          </div>
+          <div class="mt-4 flex justify-end gap-3">
+            <button onclick="closeSignup()" class="px-4 py-2 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       // Initialize Lucide icons
       lucide.createIcons();
@@ -2456,6 +2801,14 @@
         document.querySelectorAll('nav a').forEach((link) => {
           link.classList.remove('active');
         });
+
+        // Show/hide FAB based on section (only show on threads page)
+        const fabButton = document.getElementById('fab-button');
+        if (section === 'threads') {
+          fabButton.style.display = 'flex';
+        } else {
+          fabButton.style.display = 'none';
+        }
 
         // Show selected section and set active nav
         switch (section) {
@@ -2738,6 +3091,48 @@
         setTimeout(() => {
           // Could trigger a toast notification here
         }, 500);
+      }
+
+      // Authentication Functions
+      function showLogin() {
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        
+        // Hide signup modal if open
+        signupModal.classList.remove('open');
+        
+        // Show login modal
+        loginModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLogin() {
+        const loginModal = document.getElementById('login-modal');
+        loginModal.classList.remove('open');
+        document.body.style.overflow = 'auto';
+      }
+
+      function showSignup() {
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        
+        // Hide login modal if open
+        loginModal.classList.remove('open');
+        
+        // Show signup modal
+        signupModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeSignup() {
+        const signupModal = document.getElementById('signup-modal');
+        signupModal.classList.remove('open');
+        document.body.style.overflow = 'auto';
+      }
+
+      function handleLogout() {
+        // Show login modal when user clicks logout
+        showLogin();
       }
 
       // Auto-resize textarea

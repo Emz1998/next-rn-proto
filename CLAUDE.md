@@ -73,7 +73,8 @@ next-rn-proto/
 After completing each task:
 1. **Commit changes** with descriptive message
 2. **Update claude-log.md** with what was done
-3. **Push after completing each sub-goal**
+3. **Update claude-to-do-list.md** - mark completed tasks with [x]
+4. **Push after completing each sub-goal**
 
 ### CSS Variables in Use
 ```css

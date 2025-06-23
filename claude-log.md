@@ -63,6 +63,39 @@
 - Added proper overflow classes to all section containers
 - Ensured each content area has `overflow-y-auto` for vertical scrolling
 
+### [Completed] Fix UI Problem 3: Make content scrollable and remove + button from non-thread pages
+**Completed**: 2025-06-23
+**Issue**: FAB (floating action button) showing on all pages, need to restrict to threads only
+**Solution**: 
+- Modified `showSection()` function to show/hide FAB based on current section
+- Added logic: `if (section === 'threads') { fabButton.style.display = 'flex'; } else { fabButton.style.display = 'none'; }`
+- Content scrolling was already implemented from previous fixes
+- FAB now only appears on the Threads page as intended
+
+### [Completed] Design Authentication pages (login and signup)
+**Completed**: 2025-06-23
+**Issue**: Missing authentication system for user login and registration
+**Solution**: 
+- Added login modal with email/username and password fields
+- Added signup modal with comprehensive registration form including nursing status
+- Implemented modal functionality with proper overlay system
+- Added authentication section to Settings page with Sign In/Sign Up buttons
+- Connected logout button to show login modal
+- Used existing onboarding overlay styles for consistency
+- Forms include proper validation fields and user-friendly design
+
+### [Completed] Add horizontal scrollable chat rooms on Chat message page
+**Completed**: 2025-06-23
+**Issue**: Chat section needed Messenger-style chat rooms list for better navigation
+**Solution**: 
+- Redesigned chat section with chat rooms list as main view
+- Added 5 different chat rooms: RN Emma (ICU), RN Marcus (ER), RN Sarah (PICU), Study Group, RN David (OR)
+- Implemented online status indicators (green=online, yellow=away, gray=offline)
+- Added unread message indicators and message previews
+- Included nurse specialties and availability status for each RN
+- Added proper scrolling and hover effects
+- Individual chat view hidden by default, ready for selection functionality
+
 ---
 
 *Log will be updated as work progresses*
