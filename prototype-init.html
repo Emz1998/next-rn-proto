@@ -69,6 +69,33 @@
       .nav-active {
         background: hsl(var(--primary));
       }
+
+      /* Floating Action Button */
+      .fab {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 56px;
+        height: 56px;
+        background: hsl(var(--primary));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+      
+      .fab:hover {
+        background: hsl(var(--primary));
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+      
+      .fab:active {
+        transform: scale(0.95);
+      }
     </style>
   </head>
   <body
@@ -913,6 +940,137 @@
           </header>
 
           <div class="flex-1 overflow-y-auto p-4">
+            <!-- Study Timer -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="timer" class="w-4 h-4"></i>
+                Study Timer
+              </h2>
+              <div
+                class="bg-[hsl(var(--card))] rounded-lg p-4 border border-[hsl(var(--border))]"
+              >
+                <div class="text-center mb-4">
+                  <div class="text-3xl font-mono text-[hsl(var(--primary))] mb-2" id="timer-display">
+                    25:00
+                  </div>
+                  <p class="text-xs text-[hsl(var(--muted-foreground))]">
+                    Pomodoro Session
+                  </p>
+                </div>
+                <div class="flex gap-2">
+                  <button
+                    id="timer-start"
+                    class="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/80 text-[hsl(var(--primary-foreground))] px-3 py-2 rounded-lg text-sm font-medium"
+                  >
+                    Start
+                  </button>
+                  <button
+                    id="timer-pause"
+                    class="flex-1 bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-3 py-2 rounded-lg text-sm font-medium"
+                  >
+                    Pause
+                  </button>
+                  <button
+                    id="timer-reset"
+                    class="flex-1 bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-3 py-2 rounded-lg text-sm font-medium"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- NCLEX Prep -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="brain" class="w-4 h-4"></i>
+                NCLEX Prep
+              </h2>
+              <div
+                class="bg-[hsl(var(--card))] rounded-lg p-4 border border-[hsl(var(--border))] space-y-3"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="text-sm text-[hsl(var(--foreground))]">Practice Questions Today</span>
+                  <span class="text-sm font-semibold text-[hsl(var(--primary))]">12/20</span>
+                </div>
+                <div class="w-full bg-[hsl(var(--muted))] rounded-full h-2">
+                  <div
+                    class="bg-[hsl(var(--primary))] h-2 rounded-full"
+                    style="width: 60%"
+                  ></div>
+                </div>
+                <div class="flex gap-2">
+                  <button
+                    class="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/80 text-[hsl(var(--primary-foreground))] px-3 py-2 rounded-lg text-sm font-medium"
+                  >
+                    Practice Now
+                  </button>
+                  <button
+                    class="flex-1 bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-3 py-2 rounded-lg text-sm font-medium"
+                  >
+                    Review
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clinical Tracker -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="clipboard-check" class="w-4 h-4"></i>
+                Clinical Hours Tracker
+              </h2>
+              <div
+                class="bg-[hsl(var(--card))] rounded-lg p-4 border border-[hsl(var(--border))] space-y-3"
+              >
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="text-center">
+                    <div class="text-lg font-semibold text-[hsl(var(--primary))]">124</div>
+                    <div class="text-xs text-[hsl(var(--muted-foreground))]">Hours Completed</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-lg font-semibold text-[hsl(var(--foreground))]">876</div>
+                    <div class="text-xs text-[hsl(var(--muted-foreground))]">Hours Remaining</div>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex justify-between text-xs">
+                    <span class="text-[hsl(var(--muted-foreground))]">Medical-Surgical</span>
+                    <span class="text-[hsl(var(--primary))]">45/120 hrs</span>
+                  </div>
+                  <div class="w-full bg-[hsl(var(--muted))] rounded-full h-1.5">
+                    <div
+                      class="bg-[hsl(var(--primary))] h-1.5 rounded-full"
+                      style="width: 37.5%"
+                    ></div>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex justify-between text-xs">
+                    <span class="text-[hsl(var(--muted-foreground))]">Pediatrics</span>
+                    <span class="text-[hsl(var(--primary))]">32/90 hrs</span>
+                  </div>
+                  <div class="w-full bg-[hsl(var(--muted))] rounded-full h-1.5">
+                    <div
+                      class="bg-[hsl(var(--primary))] h-1.5 rounded-full"
+                      style="width: 35.5%"
+                    ></div>
+                  </div>
+                </div>
+                <button
+                  class="w-full bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-3 py-2 rounded-lg text-sm font-medium"
+                >
+                  Log Hours
+                </button>
+              </div>
+            </div>
+
             <!-- To-Do List -->
             <div class="mb-6">
               <h2
@@ -1409,6 +1567,11 @@
       </div>
     </div>
 
+    <!-- Floating Action Button -->
+    <button class="fab" onclick="openNewPostModal()" title="Create new post">
+      <i data-lucide="plus" class="w-6 h-6 text-[hsl(var(--background))]"></i>
+    </button>
+
     <script>
       // Initialize Lucide icons
       lucide.createIcons();
@@ -1482,6 +1645,82 @@
 
       // Set initial section on page load
       document.addEventListener('DOMContentLoaded', handleHashChange);
+
+      // Floating Action Button functionality
+      function openNewPostModal() {
+        // Switch to threads section and focus on the textarea
+        showSection('threads');
+        window.location.hash = 'threads';
+        
+        // Focus on the new thread textarea after a brief delay
+        setTimeout(() => {
+          const textarea = document.querySelector('#threads-section textarea');
+          if (textarea) {
+            textarea.focus();
+            textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 100);
+      }
+
+      // Study Timer functionality
+      let timerInterval;
+      let timeLeft = 25 * 60; // 25 minutes in seconds
+      let isRunning = false;
+
+      function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        const timerElement = document.getElementById('timer-display');
+        if (timerElement) {
+          timerElement.textContent = display;
+        }
+      }
+
+      function startTimer() {
+        if (!isRunning) {
+          isRunning = true;
+          timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            
+            if (timeLeft <= 0) {
+              clearInterval(timerInterval);
+              isRunning = false;
+              alert('🎉 Study session complete! Time for a break.');
+              timeLeft = 25 * 60; // Reset to 25 minutes
+              updateTimerDisplay();
+            }
+          }, 1000);
+        }
+      }
+
+      function pauseTimer() {
+        if (isRunning) {
+          clearInterval(timerInterval);
+          isRunning = false;
+        }
+      }
+
+      function resetTimer() {
+        clearInterval(timerInterval);
+        isRunning = false;
+        timeLeft = 25 * 60;
+        updateTimerDisplay();
+      }
+
+      // Add event listeners for timer buttons
+      document.addEventListener('DOMContentLoaded', function() {
+        const startBtn = document.getElementById('timer-start');
+        const pauseBtn = document.getElementById('timer-pause');
+        const resetBtn = document.getElementById('timer-reset');
+        
+        if (startBtn) startBtn.addEventListener('click', startTimer);
+        if (pauseBtn) pauseBtn.addEventListener('click', pauseTimer);
+        if (resetBtn) resetBtn.addEventListener('click', resetTimer);
+        
+        updateTimerDisplay();
+      });
 
       // Auto-resize textarea
       document.addEventListener('input', function (e) {
