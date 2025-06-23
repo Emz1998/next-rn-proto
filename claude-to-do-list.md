@@ -6,12 +6,12 @@
 - [x] Design Authentication pages (login and signup)
 - [x] Add horizontal scrollable chat rooms on Chat message page
 - [ ] Fix UI Problem 8: Implement dynamic navigation (bottom/top bar switching)
-- [ ] Design Settings page
+- [x] Design Settings page
 
 ## Medium Priority Tasks
 
-- [ ] Fix UI Problem 2: Add notification panel mockup
-- [ ] Fix UI Problem 6: Reduce height, change placeholder text, remove + from chat
+- [x] Fix UI Problem 2: Add notification panel mockup
+- [x] Fix UI Problem 6: Reduce height, change placeholder text, remove + from chat
 - [ ] Fix UI Problem 7: Make thread input a popup triggered by + button
 - [ ] Restructure CSS for better maintainability (global variables, naming conventions)
 
