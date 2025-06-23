@@ -4,7 +4,9 @@
       "WebFetch(domain:tailwindcss.com)",
       "Bash(rg:*)",
       "Bash(GIT_TERMINAL_PROMPT=0 git push -u origin main)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
