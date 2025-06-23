@@ -238,6 +238,89 @@
       .search-result-item:hover {
         background: hsl(var(--accent));
       }
+
+      /* Onboarding Flow */
+      .onboarding-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 4000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .onboarding-overlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .onboarding-card {
+        width: 90%;
+        max-width: 400px;
+        background: hsl(var(--background));
+        border-radius: 16px;
+        border: 1px solid hsl(var(--border));
+        overflow: hidden;
+        transform: scale(0.9) translateY(20px);
+        transition: transform 0.3s ease;
+      }
+      
+      .onboarding-overlay.open .onboarding-card {
+        transform: scale(1) translateY(0);
+      }
+      
+      .onboarding-header {
+        background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary))/80 100%);
+        padding: 24px;
+        text-align: center;
+        color: hsl(var(--background));
+      }
+      
+      .onboarding-content {
+        padding: 24px;
+        text-align: center;
+      }
+      
+      .onboarding-illustration {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 16px;
+        background: hsl(var(--primary))/10;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .onboarding-progress {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      
+      .progress-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: hsl(var(--muted));
+        transition: background 0.3s ease;
+      }
+      
+      .progress-dot.active {
+        background: hsl(var(--primary));
+      }
+      
+      .progress-dot.completed {
+        background: hsl(var(--primary));
+      }
     </style>
   </head>
   <body
@@ -315,6 +398,16 @@
 
         <!-- Bottom Actions -->
         <div class="mt-auto flex flex-col gap-4">
+          <button
+            onclick="startOnboarding()"
+            class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[hsl(var(--accent))] active:bg-[hsl(var(--primary))] text-[hsl(var(--foreground))]"
+            title="Take tour"
+          >
+            <i
+              data-lucide="help-circle"
+              class="w-5 h-5"
+            ></i>
+          </button>
           <a
             href="#settings"
             class="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-[hsl(var(--accent))] active:bg-[hsl(var(--primary))] [&.active]:bg-[hsl(var(--primary))]"
@@ -1410,6 +1503,195 @@
           </div>
         </div>
 
+        <!-- Settings Section -->
+        <div
+          id="settings-section"
+          class="flex-1 flex-col bg-[hsl(var(--background))] hidden"
+        >
+          <header
+            class="h-14 border-b border-[hsl(var(--border))] flex items-center px-4"
+          >
+            <i
+              data-lucide="settings"
+              class="w-5 h-5 text-[hsl(var(--primary))] mr-2"
+            ></i>
+            <h1 class="text-base font-semibold">Settings</h1>
+          </header>
+
+          <div class="flex-1 overflow-y-auto p-4">
+            <!-- Profile Section -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="user" class="w-4 h-4"></i>
+                Profile Information
+              </h2>
+              <div
+                class="bg-[hsl(var(--card))] rounded-lg p-4 border border-[hsl(var(--border))] space-y-4"
+              >
+                <!-- Profile Picture -->
+                <div class="flex items-center gap-4">
+                  <div class="w-16 h-16 rounded-full bg-[hsl(var(--primary))] flex items-center justify-center">
+                    <span class="text-xl text-[hsl(var(--background))] font-semibold">SM</span>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-base font-semibold text-[hsl(var(--foreground))]">Sofia Martinez</h3>
+                    <p class="text-sm text-[hsl(var(--muted-foreground))]">2nd Year Nursing Student</p>
+                    <button class="text-xs text-[hsl(var(--primary))] hover:text-[hsl(var(--primary))]/80 mt-1">
+                      Change Photo
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Form Fields -->
+                <div class="space-y-3">
+                  <div>
+                    <label class="text-sm font-medium text-[hsl(var(--foreground))] block mb-1">
+                      Display Name
+                    </label>
+                    <input
+                      type="text"
+                      value="Sofia Martinez"
+                      class="w-full bg-[hsl(var(--background))] border border-[hsl(var(--border))] rounded-lg px-3 py-2 text-sm text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-transparent"
+                    >
+                  </div>
+                  <div>
+                    <label class="text-sm font-medium text-[hsl(var(--foreground))] block mb-1">
+                      Program & Year
+                    </label>
+                    <select class="w-full bg-[hsl(var(--background))] border border-[hsl(var(--border))] rounded-lg px-3 py-2 text-sm text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-transparent">
+                      <option>2nd Year Nursing Student</option>
+                      <option>1st Year Nursing Student</option>
+                      <option>3rd Year Nursing Student</option>
+                      <option>4th Year Nursing Student</option>
+                      <option>Recent Graduate</option>
+                      <option>Registered Nurse</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="text-sm font-medium text-[hsl(var(--foreground))] block mb-1">
+                      School/Institution
+                    </label>
+                    <input
+                      type="text"
+                      value="University of California, San Francisco"
+                      class="w-full bg-[hsl(var(--background))] border border-[hsl(var(--border))] rounded-lg px-3 py-2 text-sm text-[hsl(var(--foreground))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--primary))] focus:border-transparent"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Verification Section -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                Verification Status
+              </h2>
+              <div
+                class="bg-[hsl(var(--card))] rounded-lg p-4 border border-[hsl(var(--border))] space-y-4"
+              >
+                <!-- Current Status -->
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-[hsl(var(--primary))]/20 flex items-center justify-center">
+                      <i data-lucide="user-check" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-[hsl(var(--foreground))]">Student Verified</div>
+                      <div class="text-xs text-[hsl(var(--muted-foreground))]">Verified on March 15, 2025</div>
+                    </div>
+                  </div>
+                  <span class="text-xs bg-[hsl(var(--primary))]/20 text-[hsl(var(--primary))] px-2 py-1 rounded">
+                    Active
+                  </span>
+                </div>
+
+                <!-- RN Verification Option -->
+                <div class="border-t border-[hsl(var(--border))] pt-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 rounded-full bg-[hsl(var(--muted))] flex items-center justify-center">
+                        <i data-lucide="graduation-cap" class="w-4 h-4 text-[hsl(var(--muted-foreground))]"></i>
+                      </div>
+                      <div>
+                        <div class="text-sm font-medium text-[hsl(var(--foreground))]">RN License Verification</div>
+                        <div class="text-xs text-[hsl(var(--muted-foreground))]">Unlock paid mentoring opportunities</div>
+                      </div>
+                    </div>
+                    <span class="text-xs bg-[hsl(var(--muted))] text-[hsl(var(--foreground))] px-2 py-1 rounded">
+                      Available after graduation
+                    </span>
+                  </div>
+                  <p class="text-xs text-[hsl(var(--muted-foreground))] mb-3">
+                    Once you pass the NCLEX and obtain your RN license, you can verify your credentials to start earning money by mentoring students.
+                  </p>
+                  <button class="w-full bg-[hsl(var(--muted))] text-[hsl(var(--muted-foreground))] px-3 py-2 rounded-lg text-sm font-medium cursor-not-allowed">
+                    Apply for RN Verification
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notification Preferences -->
+            <div class="mb-6">
+              <h2
+                class="text-sm font-semibold text-[hsl(var(--foreground))] mb-3 flex items-center gap-2"
+              >
+                <i data-lucide="bell" class="w-4 h-4"></i>
+                Notification Preferences
+              </h2>
+              <div
+                class="bg-[hsl(var(--card))] rounded-lg p-4 border border-[hsl(var(--border))] space-y-3"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="text-sm font-medium text-[hsl(var(--foreground))]">Thread Replies</div>
+                    <div class="text-xs text-[hsl(var(--muted-foreground))]">Get notified when someone replies to your posts</div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-[hsl(var(--muted))] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[hsl(var(--primary))]"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="text-sm font-medium text-[hsl(var(--foreground))]">DM Responses</div>
+                    <div class="text-xs text-[hsl(var(--muted-foreground))]">Get notified when RNs answer your paid questions</div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-[hsl(var(--muted))] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[hsl(var(--primary))]"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="text-sm font-medium text-[hsl(var(--foreground))]">Livestream Alerts</div>
+                    <div class="text-xs text-[hsl(var(--muted-foreground))]">Get notified when followed RNs start streaming</div>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-[hsl(var(--muted))] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[hsl(var(--primary))]"></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="flex gap-3">
+              <button class="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/80 text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Save Changes
+              </button>
+              <button class="flex-1 bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Hall of Excellence Section -->
         <div
           id="hall-section"
@@ -1941,6 +2223,221 @@
       </div>
     </div>
 
+    <!-- Onboarding Flow -->
+    <div id="onboarding-overlay" class="onboarding-overlay">
+      <div class="onboarding-card">
+        <div id="onboarding-step-1" class="onboarding-step">
+          <div class="onboarding-header">
+            <h2 class="text-xl font-bold mb-2">Welcome to NextRN! 🏥</h2>
+            <p class="text-sm opacity-90">Your nursing journey starts here</p>
+          </div>
+          <div class="onboarding-content">
+            <div class="onboarding-progress">
+              <div class="progress-dot active"></div>
+              <div class="progress-dot"></div>
+              <div class="progress-dot"></div>
+              <div class="progress-dot"></div>
+              <div class="progress-dot"></div>
+            </div>
+            <div class="onboarding-illustration">
+              <i data-lucide="heart" class="w-8 h-8 text-[hsl(var(--primary))]"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-[hsl(var(--foreground))] mb-3">
+              Connect with Expert RNs
+            </h3>
+            <p class="text-sm text-[hsl(var(--muted-foreground))] mb-6">
+              Get real-time support from verified registered nurses who understand your challenges and can guide your learning journey.
+            </p>
+            <div class="flex gap-3">
+              <button onclick="skipOnboarding()" class="flex-1 px-4 py-2 text-sm text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))]">
+                Skip Tour
+              </button>
+              <button onclick="nextOnboardingStep()" class="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/80 text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="onboarding-step-2" class="onboarding-step hidden">
+          <div class="onboarding-header">
+            <h2 class="text-xl font-bold mb-2">Hotel Metaphor 🏨</h2>
+            <p class="text-sm opacity-90">Navigate like you're in a professional hotel</p>
+          </div>
+          <div class="onboarding-content">
+            <div class="onboarding-progress">
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot active"></div>
+              <div class="progress-dot"></div>
+              <div class="progress-dot"></div>
+              <div class="progress-dot"></div>
+            </div>
+            <div class="onboarding-illustration">
+              <i data-lucide="building" class="w-8 h-8 text-[hsl(var(--primary))]"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-[hsl(var(--foreground))] mb-3">
+              Different Spaces for Different Needs
+            </h3>
+            <div class="text-left space-y-2 mb-6">
+              <div class="flex items-center gap-3">
+                <i data-lucide="home" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]"><strong>Lobby:</strong> Open discussions</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="message-circle" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]"><strong>Lounge:</strong> Private chats</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="radio" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]"><strong>Stage:</strong> Live learning</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="door-closed" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]"><strong>Guest Room:</strong> Your space</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button onclick="prevOnboardingStep()" class="flex-1 bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Back
+              </button>
+              <button onclick="nextOnboardingStep()" class="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/80 text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="onboarding-step-3" class="onboarding-step hidden">
+          <div class="onboarding-header">
+            <h2 class="text-xl font-bold mb-2">Paid Support 💰</h2>
+            <p class="text-sm opacity-90">Get expert help when you need it most</p>
+          </div>
+          <div class="onboarding-content">
+            <div class="onboarding-progress">
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot active"></div>
+              <div class="progress-dot"></div>
+              <div class="progress-dot"></div>
+            </div>
+            <div class="onboarding-illustration">
+              <i data-lucide="dollar-sign" class="w-8 h-8 text-[hsl(var(--primary))]"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-[hsl(var(--foreground))] mb-3">
+              Quality Guaranteed Answers
+            </h3>
+            <div class="text-left space-y-3 mb-6">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-[hsl(var(--primary))]/20 flex items-center justify-center">
+                  <span class="text-xs font-bold text-[hsl(var(--primary))]">$2</span>
+                </div>
+                <span class="text-sm text-[hsl(var(--foreground))]">Direct questions to verified RNs</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-[hsl(var(--primary))]/20 flex items-center justify-center">
+                  <span class="text-xs font-bold text-[hsl(var(--primary))]">$1</span>
+                </div>
+                <span class="text-sm text-[hsl(var(--foreground))]">Super Chat in livestreams</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="clock" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">Fast, professional responses</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button onclick="prevOnboardingStep()" class="flex-1 bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Back
+              </button>
+              <button onclick="nextOnboardingStep()" class="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/80 text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="onboarding-step-4" class="onboarding-step hidden">
+          <div class="onboarding-header">
+            <h2 class="text-xl font-bold mb-2">Study Tools 📚</h2>
+            <p class="text-sm opacity-90">Track your progress and ace the NCLEX</p>
+          </div>
+          <div class="onboarding-content">
+            <div class="onboarding-progress">
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot active"></div>
+              <div class="progress-dot"></div>
+            </div>
+            <div class="onboarding-illustration">
+              <i data-lucide="brain" class="w-8 h-8 text-[hsl(var(--primary))]"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-[hsl(var(--foreground))] mb-3">
+              Your Personal Study Suite
+            </h3>
+            <div class="text-left space-y-2 mb-6">
+              <div class="flex items-center gap-3">
+                <i data-lucide="timer" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">Pomodoro study timer</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="clipboard-check" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">Clinical hours tracker</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="brain" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">NCLEX practice questions</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <i data-lucide="trending-up" class="w-4 h-4 text-[hsl(var(--primary))]"></i>
+                <span class="text-sm text-[hsl(var(--foreground))]">Skills progress tracking</span>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <button onclick="prevOnboardingStep()" class="flex-1 bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Back
+              </button>
+              <button onclick="nextOnboardingStep()" class="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/80 text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="onboarding-step-5" class="onboarding-step hidden">
+          <div class="onboarding-header">
+            <h2 class="text-xl font-bold mb-2">You're All Set! 🎉</h2>
+            <p class="text-sm opacity-90">Ready to start your nursing journey</p>
+          </div>
+          <div class="onboarding-content">
+            <div class="onboarding-progress">
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot completed"></div>
+              <div class="progress-dot active"></div>
+            </div>
+            <div class="onboarding-illustration">
+              <i data-lucide="sparkles" class="w-8 h-8 text-[hsl(var(--primary))]"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-[hsl(var(--foreground))] mb-3">
+              Welcome to the NextRN Community!
+            </h3>
+            <p class="text-sm text-[hsl(var(--muted-foreground))] mb-6">
+              You now have access to expert nursing support, study tools, and a community of learners. Use <kbd class="px-1.5 py-0.5 bg-[hsl(var(--accent))] rounded text-xs">Ctrl+K</kbd> to search anytime!
+            </p>
+            <div class="flex gap-3">
+              <button onclick="prevOnboardingStep()" class="flex-1 bg-[hsl(var(--muted))] hover:bg-[hsl(var(--accent))] text-[hsl(var(--foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Back
+              </button>
+              <button onclick="finishOnboarding()" class="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary))]/80 text-[hsl(var(--primary-foreground))] px-4 py-2 rounded-lg text-sm font-medium">
+                Start Learning!
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       // Initialize Lucide icons
       lucide.createIcons();
@@ -2167,6 +2664,72 @@
         // Simulate profile view
         closeSearch();
         alert(`Viewing profile: ${name}`);
+      }
+
+      // Onboarding Flow functionality
+      let currentOnboardingStep = 1;
+      const totalOnboardingSteps = 5;
+
+      function startOnboarding() {
+        currentOnboardingStep = 1;
+        const overlay = document.getElementById('onboarding-overlay');
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        showOnboardingStep(1);
+      }
+
+      function nextOnboardingStep() {
+        if (currentOnboardingStep < totalOnboardingSteps) {
+          currentOnboardingStep++;
+          showOnboardingStep(currentOnboardingStep);
+        }
+      }
+
+      function prevOnboardingStep() {
+        if (currentOnboardingStep > 1) {
+          currentOnboardingStep--;
+          showOnboardingStep(currentOnboardingStep);
+        }
+      }
+
+      function showOnboardingStep(step) {
+        // Hide all steps
+        for (let i = 1; i <= totalOnboardingSteps; i++) {
+          const stepElement = document.getElementById(`onboarding-step-${i}`);
+          if (stepElement) {
+            stepElement.classList.add('hidden');
+          }
+        }
+        
+        // Show current step
+        const currentStepElement = document.getElementById(`onboarding-step-${step}`);
+        if (currentStepElement) {
+          currentStepElement.classList.remove('hidden');
+        }
+
+        // Re-initialize Lucide icons for the new step
+        setTimeout(() => {
+          lucide.createIcons();
+        }, 100);
+      }
+
+      function skipOnboarding() {
+        finishOnboarding();
+      }
+
+      function finishOnboarding() {
+        const overlay = document.getElementById('onboarding-overlay');
+        overlay.classList.remove('open');
+        document.body.style.overflow = 'auto';
+        
+        // Show threads section
+        showSection('threads');
+        window.location.hash = 'threads';
+        
+        // Optional: Show a welcome message
+        setTimeout(() => {
+          // Could trigger a toast notification here
+        }, 500);
       }
 
       // Auto-resize textarea
